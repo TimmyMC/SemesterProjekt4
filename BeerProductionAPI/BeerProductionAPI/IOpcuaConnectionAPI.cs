@@ -35,8 +35,12 @@ namespace BeerProductionAPI
 
         //skal data sendes som json data, eller opsat i parametre i URI'en?
 
-        //void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
-
+        /*
+        [OperationContract]
+        [WebInvoke(ResponseFormat = WebMessageFormat.Json
+        , UriTemplate = "BatchParameters")]
+        void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
+        */
         //[return: MessageParameter(Name = "success")]  an example on how to choose the key value when returning as json
 
 
