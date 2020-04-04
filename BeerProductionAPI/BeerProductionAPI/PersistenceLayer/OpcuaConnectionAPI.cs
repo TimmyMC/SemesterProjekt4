@@ -84,10 +84,12 @@ namespace BeerProductionAPI
             return opcConnection.CheckConnection();
         }
 
-        public float something()
+        public bool something(string floatID)
         {
-            float virk = machineReadData.ReadBarleyAmount(accessPoint);
-            return virk;
+            float virk = 0;
+            float.TryParse(floatID, out virk);
+            machineWriteData.WriteNextBatchID(accessPoint, virk);
+            return true;
         }
     }
 }
