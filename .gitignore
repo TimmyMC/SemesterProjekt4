@@ -10,3 +10,5 @@ BeerProductionAPI/BeerProductionAPI/obj/Debug/BeerProductionAPI.exe
 *.ide-wal
 *.ide-shm
 BeerProductionAPI/.vs/BeerProductionAPI/v16/.suo
+*.ide
+BeerProductionAPI/.vs/BeerProductionAPI/v16/.suo
