@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BeerProductionAPI
 {
+    [ServiceContract]
     interface IOpcuaConnectionAPI
     {
         [OperationContract]
@@ -20,9 +21,10 @@ namespace BeerProductionAPI
         ,UriTemplate = "Connection")]
         bool CheckMachineConnection();
 
+
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "allData")]
+        UriTemplate = "data")]
         LiveRelevantData GetUpdateData();
 
 
@@ -33,7 +35,15 @@ namespace BeerProductionAPI
 
         //skal data sendes som json data, eller opsat i parametre i URI'en?
 
-        void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
+        //void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
+
+        //[return: MessageParameter(Name = "success")]  an example on how to choose the key value when returning as json
+
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped
+        , UriTemplate = "test")]
+        float something();
 
     }
 }

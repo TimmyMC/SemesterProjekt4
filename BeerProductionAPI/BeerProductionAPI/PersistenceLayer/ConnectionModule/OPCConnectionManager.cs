@@ -9,7 +9,8 @@ namespace BeerProductionAPI
         private readonly string PHYSICALURL = "opc.tcp://192.168.0.122:4840";
         private readonly string SIMULATIONURL = "opc.tcp://127.0.0.1:4840";
 
-        public OPCConnectionManager() { }
+        public OPCConnectionManager() {
+        }
 
         // server state was either connected or created, but "created" didn't sound like it wasn't connected
         public bool CheckConnection()

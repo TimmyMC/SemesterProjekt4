@@ -8,46 +8,49 @@ using System.Threading.Tasks;
 namespace BeerProductionAPI
 {
 
-    [DataContract]
-
+    [DataContract(IsReference = false)]
     public class LiveRelevantData
     {
         [DataMember]
-        public float Temperature { get; }
+        public float Temperature { get; set; }
         [DataMember]
-        public float Humidity { get; }
+        public float Humidity { get; set; }
         [DataMember]
-        public float Vibration { get; }
+        public float Vibration { get; set; }
         [DataMember]
         public int BatchID { get; set; }
         [DataMember]
         public int BatchSize { get; set; }
         [DataMember]
-        public float ActualMachineSpeed { get; }
+        public float ActualMachineSpeed { get; set; }
         [DataMember]
-        public int ProducedProducts { get; }
+        public int ProducedProducts { get; set; }
         [DataMember]
         public int AcceptableProducts { get; set; }
         [DataMember]
-        public int DefectProducts { get; }
+        public int DefectProducts { get; set; }
         [DataMember]
-        public float Barley { get; }
+        public float Barley { get; set; }
         [DataMember]
-        public float Hops { get; }
+        public float Hops { get; set; }
         [DataMember]
-        public float Malt { get; }
+        public float Malt { get; set; }
         [DataMember]
-        public float Wheat { get; }
+        public float Wheat { get; set; }
         [DataMember]
-        public float Yeast { get; }
+        public float Yeast { get; set; }
         [DataMember]
-        public ushort MaintainenceMeter { get; }
+        public ushort MaintainenceMeter { get; set; }
         [DataMember]
-        public int CurrentState { get; }
+        public int CurrentState { get; set; }
+        /*
         [DataMember]
         public Dictionary<int, TimeSpan> StateDictionary { get; set; }
-
-        public LiveRelevantData(float temperature, float humidity, float vibration, float actualMachineSpeed, int producedProducts, int defectProducts, float barley, float hops, float malt, float wheat, float yeast, ushort maintainenceMeter, int currentState)
+        */
+        public LiveRelevantData(float temperature, float humidity, float vibration,
+            float actualMachineSpeed, int producedProducts, 
+            int defectProducts, float barley, float hops, float malt, float wheat, 
+            float yeast, ushort maintainenceMeter, int currentState)
         {
             Temperature = temperature;
             Humidity = humidity;
@@ -62,9 +65,9 @@ namespace BeerProductionAPI
             Yeast = yeast;
             MaintainenceMeter = maintainenceMeter;
             CurrentState = currentState;
-            StateDictionaryInit();
+           // StateDictionaryInit();
         }
-
+        /*
         private void StateDictionaryInit()
         {
             this.StateDictionary = new Dictionary<int, TimeSpan>();
@@ -87,27 +90,9 @@ namespace BeerProductionAPI
             this.StateDictionary.Add((int)MachineState.Activating, TimeSpan.Zero);
 
         }
+        */
 
     }
-    enum MachineState
-    {
-        Deactivated,
-        Clearing,
-        Stopped,
-        Starting,
-        Idle,
-        Suspended,
-        Execute,
-        Stopping,
-        Aborting,
-        Aborted,
-        Holding,
-        Held,
-        Resetting = 15,
-        Completing,
-        Complete,
-        Deactivating,
-        Activating
-    }
+
 
 }

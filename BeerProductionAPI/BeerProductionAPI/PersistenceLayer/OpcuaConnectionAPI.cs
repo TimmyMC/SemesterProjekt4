@@ -9,7 +9,6 @@ namespace BeerProductionAPI
     /// Implementation of the IPersistenceFacade interface
     /// </summary>
     /// 
-    [ServiceContract]
     //[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     //måske lav klasse til singleton hvis contructor ikke bliver kaldt
     public class OpcuaConnectionAPI : IOpcuaConnectionAPI
@@ -25,6 +24,7 @@ namespace BeerProductionAPI
             machineReadData = new MachineReadData();
             machineWriteData = new MachineWriteData();
             opcConnection = new OPCConnectionManager();
+            ConnectToMachine("opc.tcp://127.0.0.1:4840");
         }
 
         public bool ConnectToMachine(string machineName)
@@ -43,7 +43,7 @@ namespace BeerProductionAPI
 
         public LiveRelevantData GetUpdateData()
         {
-            LiveRelevantData liveRelevantData = new LiveRelevantData(
+            return new LiveRelevantData(
                 machineReadData.ReadTemperature(accessPoint),
                 machineReadData.ReadHumidity(accessPoint),
                 machineReadData.ReadVibration(accessPoint),
@@ -58,7 +58,6 @@ namespace BeerProductionAPI
                 machineReadData.ReadMaintenanceCounter(accessPoint),
                 machineReadData.ReadCurrentState(accessPoint)
                 );
-            return liveRelevantData;
         }
 
         public void SendCommand(string command)
@@ -83,6 +82,12 @@ namespace BeerProductionAPI
         public bool CheckMachineConnection()
         {
             return opcConnection.CheckConnection();
+        }
+
+        public float something()
+        {
+            float virk = machineReadData.ReadBarleyAmount(accessPoint);
+            return virk;
         }
     }
 }

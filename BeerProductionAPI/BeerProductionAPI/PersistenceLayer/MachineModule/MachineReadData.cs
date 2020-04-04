@@ -43,7 +43,9 @@ namespace BeerProductionAPI
                 {NodeID.Vibration, "ns=6;s=::Program:Cube.Status.Parameter[4].Value" },
                 {NodeID.WheatAmount, "ns=6;s=::Program:Inventory.Wheat" },
                 {NodeID.YeastAmount,"ns=6;s=::Program:Inventory.Yeast" }
+                
             };
+            
         }
 
         public float ReadActualMachineSpeed(OpcClient accessPoint)
