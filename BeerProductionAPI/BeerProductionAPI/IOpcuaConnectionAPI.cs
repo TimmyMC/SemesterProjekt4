@@ -42,8 +42,8 @@ namespace BeerProductionAPI
 
         [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped
-        , UriTemplate = "test/{id}")]
-        bool something(string id);
+        , UriTemplate = "testid/{id}")]
+        bool IdTest(string id);
 
     }
 }

@@ -84,7 +84,7 @@ namespace BeerProductionAPI
             return opcConnection.CheckConnection();
         }
 
-        public bool something(string floatID)
+        public bool IdTest(string floatID)
         {
             float virk = 0;
             float.TryParse(floatID, out virk);
