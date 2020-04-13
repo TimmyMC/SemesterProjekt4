@@ -1,9 +1,30 @@
 <?php
 class DB_Config {
 	
-	protected $servername = "";
-	protected $username = "Y";
-	protected $password = "";
-	protected $dbname = "";
+    //declaring variables
+    private $dbhost;
+    private $dbname;
+    private $dbuser;
+    private $dbpassword;
 
+    //Function to connect to the database
+    public function connect()
+    {
+        //database parameters    
+        $this->dbhost = 'tek-mmmi-db0a.tek.c.sdu.dk';
+        $this->dbname = "si3_2019_group_6_db";
+        $this->dbuser = "si3_2019_group_6";
+        $this->dbpassword = "iti4autgr6";
+        //connect to the database using given parameters
+        try {
+            $dsn = "pgsql:host=" . $this->dbhost . ";dbname=" . $this->dbname;
+            $pdo = new PDO($dsn, $this->dbuser, $this->dbpassword);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        }
+        // give an error message if connection failed
+        catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+    }
 }
