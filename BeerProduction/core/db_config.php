@@ -1,6 +1,7 @@
 <?php
-class DB_Config {
-	
+class DB_Config
+{
+
     //declaring variables
     private $dbhost;
     private $dbname;
