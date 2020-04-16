@@ -1,1 +1,7 @@
 **/.DS_Store
+*.ide-shm
+*.ide-wal
+BeerProductionAPI/.vs/BeerProductionAPI/v16/.suo
+BeerProductionAPI/BeerProductionAPI/obj/Debug/BeerProductionAPI.csprojAssemblyReference.cache
+BeerProductionAPI/BeerProductionAPI/obj/Debug/BeerProductionAPI.csproj.FileListAbsolute.txt
+*.ide
