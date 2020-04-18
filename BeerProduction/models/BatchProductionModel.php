@@ -12,23 +12,26 @@ class BatchProductionModel
 
     public function produceBatch($parameters)
     {
-        $batchID = $parameters['batchID'];
-        $batchProductType = $parameters['batchProductType'];
-        $batchSpeed = $parameters['batchSpeed'];
-        $batchSize = $parameters['batchSize'];
+        $url = 'http://localhost:8001';
+        $curl = curl_init($url);
 
-
-
-
-        $url = $this->apiURL . "/BatchParameters" . "/" . $batchProductType . "/" . $batchSpeed . "/" . $batchSize . "/" . $batchID;
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($parameters));
 
         $options = array(
             'http' => array(
                 'method' => 'POST'
             )
         );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+          ]);
 
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        echo $response . PHP_EOL;
     }
 }
