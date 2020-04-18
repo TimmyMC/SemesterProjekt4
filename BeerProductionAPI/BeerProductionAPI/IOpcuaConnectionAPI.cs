@@ -38,8 +38,8 @@ namespace BeerProductionAPI
         
         [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
-        , UriTemplate = "BatchParameters")]
-        void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
+        , UriTemplate = "BatchParameters/{productType}/{productionSpeed}/{batchSize}/{batchID}")]
+        void SetBatchParameters(string productType, string productionSpeed, string batchSize, string batchID);
  
         //[return: MessageParameter(Name = "success")]  an example on how to choose the key value when returning as json
 
