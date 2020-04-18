@@ -26,8 +26,7 @@ namespace BeerProductionAPI
 
                     IOpcuaConnectionAPI channel = cf.CreateChannel();
 
-                    string s;
-
+                    
                     Console.WriteLine("Calling EchoWithGet via HTTP GET: ");
                     Console.WriteLine("   Output: {0}", "virk");
 
