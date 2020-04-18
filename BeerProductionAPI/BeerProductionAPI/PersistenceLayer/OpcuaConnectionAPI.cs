@@ -56,7 +56,9 @@ namespace BeerProductionAPI
                 machineReadData.ReadWheatAmount(accessPoint),
                 machineReadData.ReadYeastAmount(accessPoint),
                 machineReadData.ReadMaintenanceCounter(accessPoint),
-                machineReadData.ReadCurrentState(accessPoint)
+                machineReadData.ReadCurrentState(accessPoint),
+                machineReadData.ReadNextBatchID(accessPoint),
+                machineReadData.ReadNextBatchSize(accessPoint)
                 );
         }
 
@@ -71,18 +73,18 @@ namespace BeerProductionAPI
 
         public void SetBatchParameters(string productType, string productionSpeed, string batchSize, string batchID)
         {
-            float floatType;
-            int intSpeed;
-            int intSize;
-            int intID;
-            if (float.TryParse(productType, out floatType) && int.TryParse(productionSpeed, out intSpeed)
-                && int.TryParse(batchSize, out intSize) && int.TryParse(batchID, out intID))
-            {
-                machineWriteData.WriteNextBatchProductType(accessPoint, floatType);
-                machineWriteData.WriteDesiredMachineSpeed(accessPoint, intSpeed);
-                machineWriteData.WriteNextBatchSize(accessPoint, intSize);
-                machineWriteData.WriteNextBatchID(accessPoint, intID);
-            }
+            float floatType = 0;
+            int intSpeed = 0;
+            int intSize = 0;
+            int intID = 0;
+            float.TryParse(productType, out floatType);
+            int.TryParse(productionSpeed, out intSpeed);
+            int.TryParse(batchSize, out intSize);
+            int.TryParse(batchID, out intID);
+            machineWriteData.WriteNextBatchProductType(accessPoint, floatType);
+            machineWriteData.WriteDesiredMachineSpeed(accessPoint, intSpeed);
+            machineWriteData.WriteNextBatchSize(accessPoint, intSize);
+            machineWriteData.WriteNextBatchID(accessPoint, intID);
 
         }
 
