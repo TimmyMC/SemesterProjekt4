@@ -85,7 +85,6 @@ namespace BeerProductionAPI
             machineWriteData.WriteDesiredMachineSpeed(accessPoint, intSpeed);
             machineWriteData.WriteNextBatchSize(accessPoint, intSize);
             machineWriteData.WriteNextBatchID(accessPoint, intID);
-
         }
 
 

@@ -3,7 +3,7 @@
 
 
 <h2> Batch Production </h2>
-<form action="/BeerProduction/public/BatchProduction/produceBatch" method="POST">
+<form action="BatchProduction/produceBatch" method="POST">
     <label>BatchID</label>
     <input type="text" id="batchID" name="batchID" required><br>
     <label>BatchProductType</label>

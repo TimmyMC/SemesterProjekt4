@@ -11,6 +11,7 @@ class BatchProductionController extends Controller
 
     public function produceBatch()
     {
+
         $parameters = array(
             'batchID' => $_POST['batchID'],
             'batchProductType' => $_POST['batchProductType'],
