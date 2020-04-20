@@ -18,9 +18,9 @@ namespace BeerProductionAPI
         [DataMember]
         public float Vibration { get; set; }
         [DataMember]
-        public int BatchID { get; set; }
+        public float BatchID { get; set; }
         [DataMember]
-        public int BatchSize { get; set; }
+        public float BatchSize { get; set; }
         [DataMember]
         public float ActualMachineSpeed { get; set; }
         [DataMember]
@@ -50,7 +50,7 @@ namespace BeerProductionAPI
         public LiveRelevantData(float temperature, float humidity, float vibration,
             float actualMachineSpeed, int producedProducts, 
             int defectProducts, float barley, float hops, float malt, float wheat, 
-            float yeast, ushort maintainenceMeter, int currentState)
+            float yeast, ushort maintainenceMeter, int currentState, float batchID, float batchSize)
         {
             Temperature = temperature;
             Humidity = humidity;
@@ -65,6 +65,8 @@ namespace BeerProductionAPI
             Yeast = yeast;
             MaintainenceMeter = maintainenceMeter;
             CurrentState = currentState;
+            BatchID = batchID;
+            BatchSize = batchSize;
            // StateDictionaryInit();
         }
         /*

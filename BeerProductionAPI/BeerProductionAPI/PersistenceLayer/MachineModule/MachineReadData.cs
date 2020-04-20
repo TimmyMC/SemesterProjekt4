@@ -123,13 +123,13 @@ namespace BeerProductionAPI
             return (float)accesspoint.ReadNode(nodeIDDictionary[NodeID.MaltAmount]).Value;
         }
 
-        public ushort ReadNextBatchID(OpcClient accessPoint)
+        public float ReadNextBatchID(OpcClient accessPoint)
         {
-            return (ushort)accessPoint.ReadNode(nodeIDDictionary[NodeID.NextBatchID]).Value;
+            return (float)accessPoint.ReadNode(nodeIDDictionary[NodeID.NextBatchID]).Value;
         }
-        public ushort ReadNextBatchSize(OpcClient accessPoint)
+        public float ReadNextBatchSize(OpcClient accessPoint)
         {
-            return (ushort)accessPoint.ReadNode(nodeIDDictionary[NodeID.NextBatchSize]).Value;
+            return (float)accessPoint.ReadNode(nodeIDDictionary[NodeID.NextBatchSize]).Value;
         }
 
         public ushort ReadNextBatchProductType(OpcClient accessPoint)

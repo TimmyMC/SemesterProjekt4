@@ -5,5 +5,4 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require_once '../BeerProduction/init.php';
-
 $router = new Router();
