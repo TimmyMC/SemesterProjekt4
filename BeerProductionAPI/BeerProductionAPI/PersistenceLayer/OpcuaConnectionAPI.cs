@@ -62,6 +62,17 @@ namespace BeerProductionAPI
                 );
         }
 
+        public BatchReportData getBatchReportData()
+        {
+            return new BatchReportData(
+                machineReadData.ReadNextBatchID(accessPoint),
+                machineReadData.ReadNextBatchSize(accessPoint),
+                machineReadData.ReadActualMachineSpeed(accessPoint),
+                machineReadData.ReadProducedProducts(accessPoint),
+                machineReadData.ReadDefectProducts(accessPoint)
+                );
+        }
+
         public void SendCommand(string command)
         {
             int intCommand = 0;
