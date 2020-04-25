@@ -20,7 +20,7 @@ class BatchReportController extends Controller
     }
 
     public function save($batchReportData){
-        $success = $this->model('BatchReport')->saveBatchReportToDB(batchReportData);
+        $success = $this->model('BatchReport')->saveBatchReportToDB($batchReportData);
 
     }
 }

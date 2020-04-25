@@ -7,4 +7,9 @@ ProducedProducts, <?= $viewbag['ProducedProducts'] ?></br>
 Acceptable Products, <?= $viewbag['AcceptableProducts'] ?></br>
 DefectProducts, <?= $viewbag['DefectProducts'] ?></br>
 
+
+
+<?
+    //Form method with POST to save batch report here.
+?>
 <?php include '../BeerProduction/views/partials/footer.php'; ?>

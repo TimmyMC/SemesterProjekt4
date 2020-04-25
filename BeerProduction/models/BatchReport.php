@@ -17,6 +17,15 @@ class BatchReport extends Database
     {
         $save_attempt = false;
 
+        $data = $batchReport_data; //Use this data to extract all parameters
+        //Extract parameters here
+        //id
+        //type
+        //size
+        //accept
+        //defect
+        //speed
+
         $sql = "INSERT INTO Batch_reports
                 (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
                 VALUES
