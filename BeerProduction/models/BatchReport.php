@@ -17,14 +17,13 @@ class BatchReport extends Database
     {
         $save_attempt = false;
 
-        $data = $batchReport_data; //Use this data to extract all parameters
-        //Extract parameters here
-        //id
-        //type
-        //size
-        //accept
-        //defect
-        //speed
+        $data = $batchReport_data; 
+        $Batch_id = $data->BatchID;
+        $Product_type = $data->ProductType;
+        $Batch_size = $data->BatchSize;
+        $Acceptable_products = $data->AcceptableProducts;
+        $Defect_products = $data->DefectProducts;
+        $Production_speed = $data->ActualMachineSpeed;
 
         $sql = "INSERT INTO Batch_reports
                 (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
@@ -40,6 +39,7 @@ class BatchReport extends Database
         $stmt = $this->conn->prepare($sql);
 
         //Bind our variables.
+        $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':Product_type', $Product_type);
         $stmt->bindValue(':Batch_size', $Batch_size);
         $stmt->bindValue(':Acceptable_products', $Acceptable_products);

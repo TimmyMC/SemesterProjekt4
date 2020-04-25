@@ -69,7 +69,8 @@ namespace BeerProductionAPI
                 machineReadData.ReadNextBatchSize(accessPoint),
                 machineReadData.ReadActualMachineSpeed(accessPoint),
                 machineReadData.ReadProducedProducts(accessPoint),
-                machineReadData.ReadDefectProducts(accessPoint)
+                machineReadData.ReadDefectProducts(accessPoint),
+                machineReadData.ReadNextBatchProductType(accessPoint)
                 );
         }
 

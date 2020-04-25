@@ -22,15 +22,18 @@ namespace BeerProductionAPI
         public int AcceptableProducts { get; set; }
         [DataMember]
         public int DefectProducts { get; set; }
+        [DataMember]
+        public float ProductType { get; set; }
 
         public BatchReportData(float batchID, float batchSize, float actualMachineSpeed, int producedProducts,
-            int defectProducts)
+            int defectProducts, float productType)
         {
             BatchID = batchID;
             BatchSize = batchSize;
             ActualMachineSpeed = actualMachineSpeed;
             ProducedProducts = producedProducts;
             DefectProducts = defectProducts;
+            ProductType = productType;
         }
     }
 }
