@@ -54,5 +54,10 @@ namespace BeerProductionAPI
                 host.Abort();
             }
         }
+
+        public static void writeText(string text)
+        {
+            Console.WriteLine(text);
+        }
     }
 }

@@ -10,13 +10,13 @@ namespace BeerProductionAPI
     [DataContract]
     public class BatchParameters
     {
-        [DataMember]
-        public float productType { get; set; }
-        [DataMember]
+        [DataMember(Order =1)]
+        public float batchProductType { get; set; }
+        [DataMember(Order =0)]
         public int batchID { get; set; }
-        [DataMember]
-        public int productionSpeed { get; set; }
-        [DataMember]
+        [DataMember(Order =2)]
+        public int batchSpeed { get; set; }
+        [DataMember(Order =3)]
         public int batchSize { get; set; }
     }
 }

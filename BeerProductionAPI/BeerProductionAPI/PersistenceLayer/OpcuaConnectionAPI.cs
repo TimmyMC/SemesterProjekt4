@@ -89,8 +89,9 @@ namespace BeerProductionAPI
 
         public void SetParameters(BatchParameters batch)
         {
-            machineWriteData.WriteNextBatchProductType(accessPoint, batch.productType);
-            machineWriteData.WriteDesiredMachineSpeed(accessPoint, batch.productionSpeed);
+            Program.writeText("noget");
+            machineWriteData.WriteNextBatchProductType(accessPoint, batch.batchProductType);
+            machineWriteData.WriteDesiredMachineSpeed(accessPoint, batch.batchSpeed);
             machineWriteData.WriteNextBatchSize(accessPoint, batch.batchSize);
             machineWriteData.WriteNextBatchID(accessPoint, batch.batchID);
         }
