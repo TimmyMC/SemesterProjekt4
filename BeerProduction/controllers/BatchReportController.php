@@ -2,25 +2,27 @@
 
 class BatchReportController extends Controller
 {
-
+    private $batchReportData;
     public function __construct()
     {
+        $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
     }
     public function index()
     {
-        $batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
-        $viewbag['BatchID'] = $batchReportData->BatchID;
-        $viewbag['BatchSize'] = $batchReportData->BatchSize;
-        $viewbag['ProductType'] = $batchReportData->ProductType;
-        $viewbag['ActualMachineSpeed'] = $batchReportData->ActualMachineSpeed;
-        $viewbag['ProducedProducts'] = $batchReportData->ProducedProducts;
-        $viewbag['AcceptableProducts'] = $batchReportData->AcceptableProducts;
-        $viewbag['DefectProducts'] = $batchReportData->DefectProducts;
-        
+        $viewbag['BatchID'] = $this->batchReportData->BatchID;
+        $viewbag['BatchSize'] = $this->batchReportData->BatchSize;
+        $viewbag['ProductType'] = $this->batchReportData->ProductType;
+        $viewbag['ActualMachineSpeed'] = $this->batchReportData->ActualMachineSpeed;
+        $viewbag['ProducedProducts'] = $this->batchReportData->ProducedProducts;
+        $viewbag['AcceptableProducts'] = $this->batchReportData->AcceptableProducts;
+        $viewbag['DefectProducts'] = $this->batchReportData->DefectProducts;
+
         $this->view('BatchReport/BatchReport', $viewbag);
     }
 
-    public function save($batchReportData){
-        $success = $this->model('BatchReport')->saveBatchReportToDB($batchReportData);
+    public function save()
+    {
+        $success = $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
+        echo 'batch report saved';
     }
 }

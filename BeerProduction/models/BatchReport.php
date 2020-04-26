@@ -16,8 +16,7 @@ class BatchReport extends Database
     public function saveBatchReportToDB($batchReport_data)
     {
         $save_attempt = false;
-
-        $data = $batchReport_data; 
+        $data = $batchReport_data;
         $Batch_id = $data->BatchID;
         $Product_type = $data->ProductType;
         $Batch_size = $data->BatchSize;
@@ -28,13 +27,17 @@ class BatchReport extends Database
         $sql = "INSERT INTO Batch_reports
                 (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
                 VALUES
-                (:Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed)
-                ON DUPLICATE KEY UPDATE
-                Product_type = :Product_type,
-                Batch_size = :Batch_size,
-                Acceptable_products = :Acceptable_products,
-                Defect_products = :Defect_products,
-                Production_speed = :Production_speed";
+                (:Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed)";
+                /*           
+                ON CONFLICT (batch_id) 
+                DO 
+                        UPDATE
+                SET Product_type = excluded.Product_type,
+                Batch_size = excluded.Batch_size,
+                Acceptable_products = excluded.Acceptable_products,
+                Defect_products = excluded.Defect_products,
+                Production_speed = excluded.:Production_speed"; 
+                */
 
         $stmt = $this->conn->prepare($sql);
 
@@ -48,7 +51,7 @@ class BatchReport extends Database
 
         //Execute the statement and insert the new user account.
         $result = $stmt->execute();
-        
+
         if ($result) {
             $register_attempt = true;
             return $save_attempt;

@@ -12,7 +12,7 @@ class Database extends DB_Config
 		try {
 
 			$this->conn = new PDO(
-				"mysql:host=$this->servername;dbname=$this->dbname",
+				"pgsql:host=$this->servername;dbname=$this->dbname",
 				$this->username,
 				$this->password,
 				array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
