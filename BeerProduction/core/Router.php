@@ -2,46 +2,48 @@
 
 class Router
 {
-    protected $controller = 'BatchProductionController';
-    protected $method = 'index';
-    protected $params = [];
 
-    public function __construct()
-    {
-        $url = $this->parseUrl();
+	protected $controller = 'ProductionDataController';
+	protected $method = 'index';
+	protected $params = [];
 
-        if (isset($url[0])) {
-            $url[0] = ucfirst($url[0]);
-        }
+	function __construct()
+	{
 
-        if (file_exists('../BeerProduction/controllers/' . $url[0] . 'Controller.php')) {
-            $this->controller = $url[0] . 'Controller';
-            unset($url[0]);
-        }
+		$url = $this->parseUrl();
 
-        require_once '../BeerProduction/controllers/' . $this->controller . '.php';
-        $this->controller = new $this->controller;
+		if (isset($url[0])) {
+			$url[0] = ucfirst($url[0]);
+		}
 
-        if (isset($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
-                unset($url[1]);
-            }
-        }
+		if (file_exists('../BeerProduction/controllers/' . $url[0] . 'Controller.php')) {
+			$this->controller = $url[0] . 'Controller';
+			unset($url[0]);
+		}
 
-        $this->params = $url ? array_values($url) : [];
+		require_once '../BeerProduction/controllers/' . $this->controller . '.php';
+		$this->controller = new $this->controller;
 
+		if (isset($url[1])) {
+			if (method_exists($this->controller, $url[1])) {
+				$this->method = $url[1];
+				unset($url[1]);
+			}
+		}
 
-        call_user_func_array([$this->controller, $this->method], $this->params);
-    }
+		$this->params = $url ? array_values($url) : [];
 
-    public function parseUrl()
-    {
-        $url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
-        if (substr($url, -1) !== "/") {
-            $url = $url . "/";
-        }
-        $url = explode('/', $url);
-        return array_slice($url, 1);
-    }
+		call_user_func_array([$this->controller, $this->method], $this->params);
+	}
+
+	public function parseUrl()
+	{
+
+		$url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+		if (substr($url, -1) !== "/") {
+			$url = $url . "/";
+		}
+		$url = explode('/', $url);
+		return array_slice($url, 1);
+	}
 }

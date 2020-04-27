@@ -29,6 +29,12 @@ namespace BeerProductionAPI
 
 
         [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+        UriTemplate = "batchReport")]
+        BatchReportData getBatchReportData();
+
+
+        [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
         , UriTemplate = "sendCommand/{command}")]
         void SendCommand(string command);

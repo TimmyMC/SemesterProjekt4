@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchParameters.cs" />
+    <Compile Include="BatchReportData.cs" />
     <Compile Include="IOpcuaConnectionAPI.cs" />
     <Compile Include="LiveRelevantData.cs" />
     <Compile Include="PersistenceLayer\ConnectionModule\OPCConnectionManager.cs" />
