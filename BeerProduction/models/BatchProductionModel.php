@@ -17,7 +17,7 @@ class BatchProductionModel
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($parameters));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($parameters));
 
         $options = array(
             'http' => array(
