@@ -36,7 +36,7 @@ namespace BeerProductionAPI
 
         float ReadNextBatchID(OpcClient accessPoint);
 
-        ushort ReadNextBatchProductType(OpcClient accessPoint);
+        float ReadNextBatchProductType(OpcClient accessPoint);
 
         float ReadNextBatchSize(OpcClient accessPoint);
 
