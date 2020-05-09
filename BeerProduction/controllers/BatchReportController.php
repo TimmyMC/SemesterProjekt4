@@ -22,7 +22,8 @@ class BatchReportController extends Controller
 
     public function save()
     {
-        $success = $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
+        $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
+        $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
         echo 'batch report saved';
     }
 }

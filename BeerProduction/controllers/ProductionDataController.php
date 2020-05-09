@@ -28,4 +28,10 @@ class ProductionDataController extends Controller
 
         $this->view('home/productionData', $viewbag);
     }
+
+    public function getProductionData()
+    {
+        $productionData = $this->model('ProductionData')->getProductionData();
+        echo json_encode($productionData);
+    }
 }

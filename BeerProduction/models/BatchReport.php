@@ -15,7 +15,6 @@ class BatchReport extends Database
 
     public function saveBatchReportToDB($batchReport_data)
     {
-        $save_attempt = false;
         $data = $batchReport_data;
         $Batch_id = $data->BatchID;
         $Product_type = $data->ProductType;
@@ -24,22 +23,23 @@ class BatchReport extends Database
         $Defect_products = $data->DefectProducts;
         $Production_speed = $data->ActualMachineSpeed;
 
-        $sql = "INSERT INTO Batch_reports
+        $sql = "UPDATE Batch_reports
+                SET Product_type = :Product_type,
+                Batch_size = :Batch_size,
+                Acceptable_products = :Acceptable_products,
+                Defect_products = :Defect_products,
+                Production_speed = :Production_speed
+                WHERE Batch_id = :Batch_id;";
+
+        $sql2 = "INSERT INTO Batch_reports
                 (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
-                VALUES
-                (:Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed)";
-                /*           
-                ON CONFLICT (batch_id) 
-                DO 
-                        UPDATE
-                SET Product_type = excluded.Product_type,
-                Batch_size = excluded.Batch_size,
-                Acceptable_products = excluded.Acceptable_products,
-                Defect_products = excluded.Defect_products,
-                Production_speed = excluded.:Production_speed"; 
-                */
+                SELECT
+                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed
+                WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
+
 
         $stmt = $this->conn->prepare($sql);
+        $stmt2 = $this->conn->prepare($sql2);
 
         //Bind our variables.
         $stmt->bindValue(':Batch_id', $Batch_id);
@@ -48,16 +48,16 @@ class BatchReport extends Database
         $stmt->bindValue(':Acceptable_products', $Acceptable_products);
         $stmt->bindValue(':Defect_products', $Defect_products);
         $stmt->bindValue(':Production_speed', $Production_speed);
+        $stmt2->bindValue(':Batch_id', $Batch_id);
+        $stmt2->bindValue(':Product_type', $Product_type);
+        $stmt2->bindValue(':Batch_size', $Batch_size);
+        $stmt2->bindValue(':Acceptable_products', $Acceptable_products);
+        $stmt2->bindValue(':Defect_products', $Defect_products);
+        $stmt2->bindValue(':Production_speed', $Production_speed);
 
         //Execute the statement and insert the new user account.
-        $result = $stmt->execute();
-
-        if ($result) {
-            $register_attempt = true;
-            return $save_attempt;
-        } else {
-            //If there was a problem with the INSERT query, alert the user and redirect back to registration page.
-            return $save_attempt;
-        }
+        $stmt->execute();
+        $stmt2->execute();
+        return;
     }
 }
