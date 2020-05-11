@@ -9,7 +9,7 @@ namespace BeerProductionAPI
     /// Implementation of the IPersistenceFacade interface
     /// </summary>
     /// 
-    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     //måske lav klasse til singleton hvis contructor ikke bliver kaldt
     public class OpcuaConnectionAPI : IOpcuaConnectionAPI
     {

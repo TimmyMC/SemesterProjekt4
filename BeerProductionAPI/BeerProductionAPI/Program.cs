@@ -14,8 +14,8 @@ namespace BeerProductionAPI
     {
         static void Main(string[] args)
         {
-
-            WebServiceHost host = new WebServiceHost(typeof(OpcuaConnectionAPI), new Uri("http://localhost:8001/"));
+            OpcuaConnectionAPI api = new OpcuaConnectionAPI();
+            WebServiceHost host = new WebServiceHost(api, new Uri("http://localhost:8001/"));
             try
             {
                 ServiceEndpoint ep = host.AddServiceEndpoint(typeof(IOpcuaConnectionAPI), new WebHttpBinding(), "");
