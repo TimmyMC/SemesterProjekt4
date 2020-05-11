@@ -56,7 +56,21 @@ namespace BeerProductionAPI
                 machineReadData.ReadWheatAmount(accessPoint),
                 machineReadData.ReadYeastAmount(accessPoint),
                 machineReadData.ReadMaintenanceCounter(accessPoint),
-                machineReadData.ReadCurrentState(accessPoint)
+                machineReadData.ReadCurrentState(accessPoint),
+                machineReadData.ReadNextBatchID(accessPoint),
+                machineReadData.ReadNextBatchSize(accessPoint)
+                );
+        }
+
+        public BatchReportData getBatchReportData()
+        {
+            return new BatchReportData(
+                machineReadData.ReadNextBatchID(accessPoint),
+                machineReadData.ReadNextBatchSize(accessPoint),
+                machineReadData.ReadActualMachineSpeed(accessPoint),
+                machineReadData.ReadProducedProducts(accessPoint),
+                machineReadData.ReadDefectProducts(accessPoint),
+                machineReadData.ReadNextBatchProductType(accessPoint)
                 );
         }
 
@@ -69,13 +83,29 @@ namespace BeerProductionAPI
             }
         }
 
-        public void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID)
+        public void SetBatchParameters(string productType, string productionSpeed, string batchSize, string batchID)
         {
-            machineWriteData.WriteNextBatchProductType(accessPoint, productType);
-            machineWriteData.WriteDesiredMachineSpeed(accessPoint, productionSpeed);
-            machineWriteData.WriteNextBatchSize(accessPoint, batchSize);
-            machineWriteData.WriteNextBatchID(accessPoint, batchID);
+            float floatType = 0;
+            int intSpeed = 0;
+            int intSize = 0;
+            int intID = 0;
+            float.TryParse(productType, out floatType);
+            int.TryParse(productionSpeed, out intSpeed);
+            int.TryParse(batchSize, out intSize);
+            int.TryParse(batchID, out intID);
+            machineWriteData.WriteNextBatchProductType(accessPoint, floatType);
+            machineWriteData.WriteDesiredMachineSpeed(accessPoint, intSpeed);
+            machineWriteData.WriteNextBatchSize(accessPoint, intSize);
+            machineWriteData.WriteNextBatchID(accessPoint, intID);
+        }
 
+        public void SetParameters(BatchParameters batch)
+        {
+            Program.writeText("noget");
+            machineWriteData.WriteNextBatchProductType(accessPoint, batch.batchProductType);
+            machineWriteData.WriteDesiredMachineSpeed(accessPoint, batch.batchSpeed);
+            machineWriteData.WriteNextBatchSize(accessPoint, batch.batchSize);
+            machineWriteData.WriteNextBatchID(accessPoint, batch.batchID);
         }
 
 

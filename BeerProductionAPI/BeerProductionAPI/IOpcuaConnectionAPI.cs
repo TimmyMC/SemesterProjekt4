@@ -29,19 +29,30 @@ namespace BeerProductionAPI
 
 
         [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json,
+        UriTemplate = "batchReport")]
+        BatchReportData getBatchReportData();
+
+
+        [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
         , UriTemplate = "sendCommand/{command}")]
         void SendCommand(string command);
 
         //skal data sendes som json data, eller opsat i parametre i URI'en?
 
-        /*
+        
         [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
-        , UriTemplate = "BatchParameters")]
-        void SetBatchParameters(float productType, int productionSpeed, int batchSize, int batchID);
-        */
+        , UriTemplate = "BatchParameters/{productType}/{productionSpeed}/{batchSize}/{batchID}")]
+        void SetBatchParameters(string productType, string productionSpeed, string batchSize, string batchID);
+
         //[return: MessageParameter(Name = "success")]  an example on how to choose the key value when returning as json
+
+        [OperationContract]
+        [WebInvoke(ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare
+        , UriTemplate = "BatchParameters")]
+        void SetParameters(BatchParameters batchParameters);
 
 
         [OperationContract]
