@@ -1,23 +1,23 @@
 <?php include '../BeerProduction/views/partials/menu.php'; ?>
 
-Acceptable Products, <?= $viewbag['AcceptableProducts'] ?></br>
-Actual MachineSpeed, <?= $viewbag['ActualMachineSpeed'] ?></br>
-BatchID, <?= $viewbag['BatchID'] ?></br>
-BatchSize, <?= $viewbag['BatchSize'] ?></br>
-CurrentState, <?= $viewbag['CurrentState'] ?></br>
-DefectProducts, <?= $viewbag['DefectProducts'] ?></br>
-ProducedProducts, <?= $viewbag['ProducedProducts'] ?></br>
-MaintainenceMeter, <?= $viewbag['MaintainenceMeter'] ?></br>
+Acceptable Products, <label id='AcceptableProducts'></label></br>
+Actual MachineSpeed, <label id='ActualMachineSpeed'></label></br>
+BatchID, <label id='BatchID'></label></br>
+BatchSize, <label id='BatchSize'></label></br>
+CurrentState, <label id='CurrentState'></label></br>
+DefectProducts, <label id='DefectProducts'></label></br>
+ProducedProducts, <label id='ProducedProducts'></label></br>
+MaintainenceMeter, <label id='MaintainenceMeter'></label></br>
 
-Humidity, <?= $viewbag['Humidity'] ?></br>
-Temperature, <?= $viewbag['Temperature'] ?></br>
-Vibration, <?= $viewbag['Vibration'] ?></br>
+Humidity, <label id='Humidity'></label></br>
+Temperature, <label id='Temperature'></label></br>
+Vibration, <label id='Vibration'></label></br>
 
-Barley, <?= $viewbag['Barley'] ?></br>
-Hops, <?= $viewbag['Hops'] ?></br>
-Malt, <?= $viewbag['Malt'] ?></br>
-Wheat, <?= $viewbag['Wheat'] ?></br>
-Yeast, <?= $viewbag['Yeast'] ?></br>
+Barley, <label id='Barley'></label></br>
+Hops, <label id='Hops'></label></br>
+Malt, <label id='Malt'></label></br>
+Wheat, <label id='Wheat'></label></br>
+Yeast, <label id='Yeast'></label></br>
 
 
 <?php include '../BeerProduction/views/partials/footer.php'; ?>

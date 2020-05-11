@@ -9,7 +9,7 @@ namespace BeerProductionAPI
     /// Implementation of the IPersistenceFacade interface
     /// </summary>
     /// 
-    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     //måske lav klasse til singleton hvis contructor ikke bliver kaldt
     public class OpcuaConnectionAPI : IOpcuaConnectionAPI
     {
@@ -101,11 +101,18 @@ namespace BeerProductionAPI
 
         public void SetParameters(BatchParameters batch)
         {
-            Program.writeText("noget");
             machineWriteData.WriteNextBatchProductType(accessPoint, batch.batchProductType);
             machineWriteData.WriteDesiredMachineSpeed(accessPoint, batch.batchSpeed);
             machineWriteData.WriteNextBatchSize(accessPoint, batch.batchSize);
             machineWriteData.WriteNextBatchID(accessPoint, batch.batchID);
+            int abortedState = 9;
+            if (machineReadData.ReadCurrentState(accessPoint) == abortedState)
+            {
+                machineWriteData.WriteControlCommand(accessPoint, 5);
+            }
+            machineWriteData.WriteControlCommand(accessPoint, 1);
+            machineWriteData.WriteControlCommand(accessPoint, 2);
+
         }
 
 
