@@ -34,11 +34,11 @@ namespace BeerProductionAPI
 
         bool ReadCommandChangeRequest(OpcClient accessPoint);
 
-        ushort ReadNextBatchID(OpcClient accessPoint);
+        float ReadNextBatchID(OpcClient accessPoint);
 
-        ushort ReadNextBatchProductType(OpcClient accessPoint);
+        float ReadNextBatchProductType(OpcClient accessPoint);
 
-        ushort ReadNextBatchSize(OpcClient accessPoint);
+        float ReadNextBatchSize(OpcClient accessPoint);
 
         float ReadBarleyAmount(OpcClient accessPoint);
 

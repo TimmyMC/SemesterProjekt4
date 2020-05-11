@@ -14,8 +14,8 @@ namespace BeerProductionAPI
     {
         static void Main(string[] args)
         {
-
-            WebServiceHost host = new WebServiceHost(typeof(OpcuaConnectionAPI), new Uri("http://localhost:8001/"));
+            OpcuaConnectionAPI api = new OpcuaConnectionAPI();
+            WebServiceHost host = new WebServiceHost(api, new Uri("http://localhost:8001/"));
             try
             {
                 ServiceEndpoint ep = host.AddServiceEndpoint(typeof(IOpcuaConnectionAPI), new WebHttpBinding(), "");
@@ -26,8 +26,7 @@ namespace BeerProductionAPI
 
                     IOpcuaConnectionAPI channel = cf.CreateChannel();
 
-                    string s;
-
+                    
                     Console.WriteLine("Calling EchoWithGet via HTTP GET: ");
                     Console.WriteLine("   Output: {0}", "virk");
 
@@ -53,6 +52,11 @@ namespace BeerProductionAPI
                 Console.WriteLine("An exception occurred: {0}", cex.Message);
                 host.Abort();
             }
+        }
+
+        public static void writeText(string text)
+        {
+            Console.WriteLine(text);
         }
     }
 }
