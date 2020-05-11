@@ -1,6 +1,6 @@
 console.log("js");
 
-var update = setInterval(updateData, 2000);
+var update = setInterval(updateData, 500);
 
 function updateData() {
     updateProductionData();

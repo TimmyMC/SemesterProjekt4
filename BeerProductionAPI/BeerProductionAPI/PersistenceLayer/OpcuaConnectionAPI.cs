@@ -2,6 +2,7 @@
 using Opc.UaFx.Client;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading;
 
 namespace BeerProductionAPI
 {
@@ -109,8 +110,10 @@ namespace BeerProductionAPI
             if (machineReadData.ReadCurrentState(accessPoint) == abortedState)
             {
                 machineWriteData.WriteControlCommand(accessPoint, 5);
+                Thread.Sleep(1000);
             }
             machineWriteData.WriteControlCommand(accessPoint, 1);
+            Thread.Sleep(1000);
             machineWriteData.WriteControlCommand(accessPoint, 2);
 
         }
