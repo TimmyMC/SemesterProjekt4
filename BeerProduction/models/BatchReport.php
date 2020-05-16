@@ -13,7 +13,7 @@ class BatchReport extends Database
         return $batchReport_data;
     }
 
-    public function saveBatchReportToDB($batchReport_data)
+    public function updateBatchReportToDB($batchReport_data)
     {
         $data = $batchReport_data;
         $Batch_id = $data->BatchID;
@@ -31,15 +31,7 @@ class BatchReport extends Database
                 Production_speed = :Production_speed
                 WHERE Batch_id = :Batch_id;";
 
-        $sql2 = "INSERT INTO Batch_reports
-                (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
-                SELECT
-                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed
-                WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
-
-
         $stmt = $this->conn->prepare($sql);
-        $stmt2 = $this->conn->prepare($sql2);
 
         //Bind our variables.
         $stmt->bindValue(':Batch_id', $Batch_id);
@@ -48,16 +40,37 @@ class BatchReport extends Database
         $stmt->bindValue(':Acceptable_products', $Acceptable_products);
         $stmt->bindValue(':Defect_products', $Defect_products);
         $stmt->bindValue(':Production_speed', $Production_speed);
-        $stmt2->bindValue(':Batch_id', $Batch_id);
-        $stmt2->bindValue(':Product_type', $Product_type);
-        $stmt2->bindValue(':Batch_size', $Batch_size);
-        $stmt2->bindValue(':Acceptable_products', $Acceptable_products);
-        $stmt2->bindValue(':Defect_products', $Defect_products);
-        $stmt2->bindValue(':Production_speed', $Production_speed);
-
+       
         //Execute the statement and insert the new user account.
         $stmt->execute();
-        $stmt2->execute();
+        return;
+    }
+    public function saveBatchReportToDB($batchReport_parameters)
+    {
+        $data = $batchReport_data;
+        $Batch_id = $data->batchID;
+        $Product_type = $data->batchProductType;
+        $Batch_size = $data->batchSize;
+        $Acceptable_products =0;
+        $Defect_products = 0;
+        $Production_speed = $data->batchSpeed;
+
+        $sql = "INSERT INTO Batch_reports
+                (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
+                SELECT
+                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed
+                WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
+        
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(':Batch_id', $Batch_id);
+        $stmt->bindValue(':Product_type', $Product_type);
+        $stmt->bindValue(':Batch_size', $Batch_size);
+        $stmt->bindValue(':Acceptable_products', $Acceptable_products);
+        $stmt->bindValue(':Defect_products', $Defect_products);
+        $stmt->bindValue(':Production_speed', $Production_speed);
+    
+        $stmt->execute();
         return;
     }
 }
