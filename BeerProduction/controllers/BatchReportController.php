@@ -30,8 +30,8 @@ class BatchReportController extends Controller
     {
         $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
         $this->model('BatchReport')->updateBatchReportToDB($this->batchReportData);
-        $this->model('BatchReport')->updateBatchReportToDB($this->insertEnvironmentalLog);
-        $this->model('BatchReport')->updateBatchReportToDB($this->updateStateLog);
+        $this->model('BatchReport')->insertEnvironmentalLog($this->batchReportData);
+        $this->model('BatchReport')->updateStateLog($this->batchReportData);
         echo 'batch report updated';
     }
 }
