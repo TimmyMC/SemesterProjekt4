@@ -7,7 +7,7 @@ namespace BeerProductionAPI
     {
         private Dictionary<NodeID, string> nodeIDDictionary;  //TODO move to Database package
 
-        private enum NodeID { ControlCommand, CommandChangeRequest, MachSpeed, NextBatchID, NextBatchProductType, NextBatchSize };
+        private enum NodeID { ControlCommand, CommandChangeRequest, MachSpeed, NextBatchID, NextBatchProductType, NextBatchSize};
 
         public MachineWriteData()
         {

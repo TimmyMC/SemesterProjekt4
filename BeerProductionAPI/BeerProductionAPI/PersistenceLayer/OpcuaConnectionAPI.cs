@@ -44,6 +44,11 @@ namespace BeerProductionAPI
 
         public LiveRelevantData GetUpdateData()
         {
+            float batchID = machineReadData.ReadNextBatchID(accessPoint);
+            if(batchID == 0)
+            {
+                batchID = machineReadData.ReadBatchID(accessPoint);
+            }
             return new LiveRelevantData(
                 machineReadData.ReadTemperature(accessPoint),
                 machineReadData.ReadHumidity(accessPoint),
@@ -58,7 +63,7 @@ namespace BeerProductionAPI
                 machineReadData.ReadYeastAmount(accessPoint),
                 machineReadData.ReadMaintenanceCounter(accessPoint),
                 machineReadData.ReadCurrentState(accessPoint),
-                machineReadData.ReadNextBatchID(accessPoint),
+                batchID,
                 machineReadData.ReadNextBatchSize(accessPoint)
                 );
         }

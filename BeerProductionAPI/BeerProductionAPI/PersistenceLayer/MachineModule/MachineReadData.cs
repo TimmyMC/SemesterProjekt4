@@ -19,7 +19,7 @@ namespace BeerProductionAPI
             {
                 {NodeID.ActualMachineSpeed, "ns=6;s=::Program:Cube.Status.MachSpeed" },
                 {NodeID.BarleyAmount, "ns=6;s=::Program:Inventory.Barley" },
-                {NodeID.BatchID, "ns=6; s =::Program:Cube.Status.Parameter[0].Value" },
+                {NodeID.BatchID, "ns=6; s =::Program:batch_id" },
                 {NodeID.BatchSize, "ns=6;s=::Program:Cube.Status.Parameter[1].Value" },
                 {NodeID.CommandChangeRequest, "ns=6;s=::Program:Cube.Command.CmdChangeRequest" },
                 {NodeID.ControlCommand, "ns=6;s=::Program:Cube.Command.CntrlCmd" },

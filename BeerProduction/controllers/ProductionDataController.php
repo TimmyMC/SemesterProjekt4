@@ -32,6 +32,8 @@ class ProductionDataController extends Controller
     public function getProductionData()
     {
         $productionData = $this->model('ProductionData')->getProductionData();
+        $this->model('BatchReport')->insertEnvironmentalLog($productionData);
+        $this->model('BatchReport')->updateStateLog($productionData);
         echo json_encode($productionData);
     }
 }
