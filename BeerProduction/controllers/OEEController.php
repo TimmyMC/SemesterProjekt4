@@ -8,7 +8,9 @@ class OEEController extends Controller
     }
     public function index()
     {
-        $OEEData = $this->model('OEE')->getOEEData();
+        $productionData = $this->model('ProductionData')->getProductionData();
+        $currentBatchID = $productionData->BatchID;
+        $OEEData = $this->model('OEE')->getOEEData($currentBatchID);
         $this->view('BatchReport/OEE', $OEEData);
     }
 }

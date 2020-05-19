@@ -2,6 +2,8 @@
 
 class ProductionData
 {
+    private $currentBatchID;
+
     private $batchSize;
     private $acceptableProducts;
     private $defectProducts;
@@ -16,15 +18,15 @@ class ProductionData
     private $dataAle;
     private $dataAlcoholFree;
 
-    public function getOEEData()
+    public function getOEEData($currentBatchIDData)
     {
-
-        $this->dataPilsner=calculateTotalOEE(getOEEDatafromDB(1),600);
-        $this->dataWheat=calculateTotalOEE(getOEEDatafromDB(2),300);
-        $this->dataIpa=calculateTotalOEE(getOEEDatafromDB(3),150);
-        $this->dataStout=calculateTotalOEE(getOEEDatafromDB(4),200);
-        $this->dataAle=calculateTotalOEE(getOEEDatafromDB(5),100);
-        $this->dataAlcoholFree=calculateTotalOEE(getOEEDatafromDB(6),125);
+        $currentBatchID = $currentBatchIDData;
+        $this->dataPilsner=calculateTotalOEE(getOEEDatafromDB(1), 600);
+        $this->dataWheat=calculateTotalOEE(getOEEDatafromDB(2), 300);
+        $this->dataIpa=calculateTotalOEE(getOEEDatafromDB(3), 150);
+        $this->dataStout=calculateTotalOEE(getOEEDatafromDB(4), 200);
+        $this->dataAle=calculateTotalOEE(getOEEDatafromDB(5), 100);
+        $this->dataAlcoholFree=calculateTotalOEE(getOEEDatafromDB(6), 125);
         
         $OEEData = array(
             'Pilsner'=>$this->dataPilsner,
@@ -37,13 +39,11 @@ class ProductionData
         return $OEEData;
     }
 
+    
 
     private function getOEEDatafromDB($productType)
     {
-        $sql = "SELECT batch_size, acceptable_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type";
-
-        // Mangler Availability = runtime / Planned production time. (runtime = plannedProductionTime - downTime)"
-        // Mangler Performance = (IdealCycleTime x totalCount) / run time. 
+        $sql = "SELECT batch_id, batch_size, acceptable_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -56,24 +56,64 @@ class ProductionData
         $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
-        
+    }
+
+    private function getStateLogData($batchID){
+        // state_logs?
+        $sql = "SELECT * FROM state_logs WHERE batch_id=:batchID";
+
+        $stmt = $this->conn->prepare($sql);
+
+        //Bind our variables.
+        $stmt->bindValue(':batchID', $batchID);
+
+        //Execute the statement.
+        $stmt->execute();
+
+        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
     }
 
     private function calculateTotalOEE($data, $MaxProductionSpeed)
     {
-
         $OEEList = array();
+        $unusedBatchReportsCount = 0;
         foreach ($data as $key => $value) {
             $OEE;
             if ($key['ProducedProducts'] == 0) {
                 $OEE = 0;
-            } else {
+                $unusedBatchReportsCount++;
+            } 
+            //key batch id is equal to current batch ID
+            elseif($key['batch_id']==$currentBatchID){
+                $OEE = 0;
+                $unusedBatchReportsCount++;
+            } 
+            else {
+                
+                
+                
+                /////////////////////////////////////////////////////////////////////
+                $batchID = $key['batch_id'];
+                $stateLogData = getStateLogData($batchID);
+                
+                //calculate runtime from start time and end time NOT AVAILABLE
+                $plannedProductionTime = array_sum($stateLogData)-$key['batch_id'];
+                
+                //calculate downtime from statelogs NOT AVAILABLE
+                $downtime = $plannedProductionTime-$stateLogData['Execute'];
+                $runtime = $stateLogData['Execute'];
+                /////////////////////////////////////////////////////////////////////
+
+
+
+
+
                 //Calcualate Quality
-                $quality = CalculateQuality($key['Acceptable_products'],$key[ 'Defect_products']);
+                $quality = CalculateQuality($key['Acceptable_products'], $key[ 'Defect_products']);
                 //Calculate Availability
-                $runtime;//calculate runtime from start time and end time NOT AVAILABLE
-                $downtime;//calculate downtime from statelogs NOT AVAILABLE
-                $availability = CalculateAvailability($runtime, $downtime);
+                $availability = CalculateAvailability($plannedProductionTime, $downtime);
                 //Calculate Performance
                 $totalProducts=$key['Acceptable_products']+$key[ 'Defect_products'];
                 $performance = CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
@@ -84,13 +124,19 @@ class ProductionData
             array_push($OEEList, $OEE);
         }
 
-        $averageOEE = array_sum($OEEList) / count($OEEList);
+        $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
         return $averageOEE;
     }
 
+
+
+
+
+
+
+
     private function calculateOEE($quality, $availability, $performance)
     {
-
         $OEE = $quality * $availability * $performance;
         return $OEE;
     }
@@ -103,17 +149,15 @@ class ProductionData
         return $quality;
     }
 
-    private function calculateAvailability($runtime, $downtime)
+    private function calculateAvailability($plannedProductionTime, $downtime)
     {
-        $availability = ($runtime - $downtime)/ $runtime;
+        $availability = ($plannedProductionTime - $downtime)/ $plannedProductionTime;
 
         return $availability;
-
     }
 
     private function calculatePerformance($MaxProductionSpeed, $totalProducts, $runtime)
     {
-
         $IdealCycleTime =  60/$MaxProductionSpeed;
 
         $performance = ($IdealCycleTime * $totalProducts) / $runtime;
