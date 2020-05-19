@@ -9,9 +9,9 @@ namespace BeerProductionAPI
     /// <summary>
     /// Implementation of the IPersistenceFacade interface
     /// </summary>
-    /// 
+    /// nullreference exception when no connection
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    //måske lav klasse til singleton hvis contructor ikke bliver kaldt
+    //Maybe make class singleton if constructor is not being called
     public class OpcuaConnectionAPI : IOpcuaConnectionAPI
     {
         private IMachineReadData machineReadData;
@@ -35,8 +35,11 @@ namespace BeerProductionAPI
                 machineName = currentMachineName;
             }
             bool isSuccess = opcConnection.ConnectToServer(machineName);
-            currentMachineName = machineName;
-            accessPoint = opcConnection.AccessPoint;
+            if (isSuccess)
+            {
+                currentMachineName = machineName;
+                accessPoint = opcConnection.AccessPoint;
+            }
             return isSuccess;
         }
 
@@ -44,24 +47,30 @@ namespace BeerProductionAPI
 
         public LiveRelevantData GetUpdateData()
         {
-            return new LiveRelevantData(
-                machineReadData.ReadTemperature(accessPoint),
-                machineReadData.ReadHumidity(accessPoint),
-                machineReadData.ReadVibration(accessPoint),
-                machineReadData.ReadActualMachineSpeed(accessPoint),
-                machineReadData.ReadProducedProducts(accessPoint),
-                machineReadData.ReadDefectProducts(accessPoint),
-                machineReadData.ReadBarleyAmount(accessPoint),
-                machineReadData.ReadHopsAmount(accessPoint),
-                machineReadData.ReadMaltAmount(accessPoint),
-                machineReadData.ReadWheatAmount(accessPoint),
-                machineReadData.ReadYeastAmount(accessPoint),
-                machineReadData.ReadMaintenanceCounter(accessPoint),
-                machineReadData.ReadCurrentState(accessPoint),
-                machineReadData.ReadNextBatchID(accessPoint),
-                machineReadData.ReadNextBatchSize(accessPoint),
-                machineReadData.ReadBatchID(accessPoint)
-                );
+            try
+            {
+                return new LiveRelevantData(
+                    machineReadData.ReadTemperature(accessPoint),
+                    machineReadData.ReadHumidity(accessPoint),
+                    machineReadData.ReadVibration(accessPoint),
+                    machineReadData.ReadActualMachineSpeed(accessPoint),
+                    machineReadData.ReadProducedProducts(accessPoint),
+                    machineReadData.ReadDefectProducts(accessPoint),
+                    machineReadData.ReadBarleyAmount(accessPoint),
+                    machineReadData.ReadHopsAmount(accessPoint),
+                    machineReadData.ReadMaltAmount(accessPoint),
+                    machineReadData.ReadWheatAmount(accessPoint),
+                    machineReadData.ReadYeastAmount(accessPoint),
+                    machineReadData.ReadMaintenanceCounter(accessPoint),
+                    machineReadData.ReadCurrentState(accessPoint),
+                    machineReadData.ReadNextBatchID(accessPoint),
+                    machineReadData.ReadNextBatchSize(accessPoint),
+                    machineReadData.ReadBatchID(accessPoint)
+                    );
+            } catch (System.NullReferenceException ex)
+            {
+                return null;
+            }
         }
 
         public BatchReportData getBatchReportData()
