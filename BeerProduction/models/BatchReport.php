@@ -47,12 +47,12 @@ class BatchReport extends Database
     }
     public function saveBatchReportToDB($data)
     {
-        $Batch_id = $data->batchID;
-        $Product_type = $data->batchProductType;
-        $Batch_size = $data->batchSize;
+        $Batch_id = $data['batchID'];
+        $Product_type = $data['batchProductType'];
+        $Batch_size = $data['batchSize'];
         $Acceptable_products = 0;
         $Defect_products = 0;
-        $Production_speed = $data->batchSpeed;
+        $Production_speed = $data['batchSpeed'];
 
         $sql = "INSERT INTO Batch_reports
                 (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)

@@ -31,7 +31,7 @@ namespace BeerProductionAPI
             machineWriteData = new MachineWriteData();
             opcConnection = new OPCConnectionManager();
             simulationIP = "opc.tcp://127.0.0.1:4840";
-            ConnectToMachine("opc.tcp://127.0.0.1:4840");
+            ConnectToMachine(simulationIP);
             ValidConnection = true;
 
         }
