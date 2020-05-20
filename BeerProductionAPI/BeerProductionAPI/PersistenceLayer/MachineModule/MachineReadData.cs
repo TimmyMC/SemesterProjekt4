@@ -1,4 +1,5 @@
 ﻿using Opc.UaFx.Client;
+using System;
 using System.Collections.Generic;
 
 namespace BeerProductionAPI
@@ -58,9 +59,9 @@ namespace BeerProductionAPI
             return (float)accessPoint.ReadNode(nodeIDDictionary[NodeID.BarleyAmount]).Value;
         }
 
-        public int ReadBatchID(OpcClient accessPoint)
+        public UInt16 ReadBatchID(OpcClient accessPoint)
         {
-            return (int)accessPoint.ReadNode(nodeIDDictionary[NodeID.BatchID]).Value;
+            return (UInt16)accessPoint.ReadNode(nodeIDDictionary[NodeID.BatchID]).Value;
         }
 
         public ushort ReadBatchSize(OpcClient accessPoint)

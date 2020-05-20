@@ -44,7 +44,7 @@ namespace BeerProductionAPI
         [DataMember]
         public int CurrentState { get; set; }
         [DataMember]
-        public int CurrentBatchID { get; set; }
+        public UInt16 CurrentBatchID { get; set; }
         /*
         [DataMember]
         public Dictionary<int, TimeSpan> StateDictionary { get; set; }
@@ -52,7 +52,7 @@ namespace BeerProductionAPI
         public LiveRelevantData(float temperature, float humidity, float vibration,
             float actualMachineSpeed, int producedProducts, 
             int defectProducts, float barley, float hops, float malt, float wheat, 
-            float yeast, ushort maintainenceMeter, int currentState, float batchID, float batchSize, int currentBatchID)
+            float yeast, ushort maintainenceMeter, int currentState, float batchID, float batchSize, UInt16 currentBatchID)
         {
             Temperature = temperature;
             Humidity = humidity;
