@@ -14,7 +14,7 @@ namespace BeerProductionAPI
 
         int ReadCurrentState(OpcClient accessPoint);
 
-        float ReadBatchID(OpcClient accessPoint);
+        int ReadBatchID(OpcClient accessPoint);
 
         ushort ReadBatchSize(OpcClient accessPoint);
 
