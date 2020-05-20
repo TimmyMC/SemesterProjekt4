@@ -73,6 +73,7 @@ namespace BeerProductionAPI
                         machineReadData.ReadNextBatchID(accessPoint),
                         machineReadData.ReadNextBatchSize(accessPoint),
                         machineReadData.ReadBatchID(accessPoint)
+                        //0
                         );
                 }
                 catch (NullReferenceException ex)
@@ -233,6 +234,7 @@ namespace BeerProductionAPI
                         if (ConnectToMachine(currentMachineName))
                         {
                             ValidConnection = true;
+                            Console.WriteLine("reconnected");
                         }
                         else
                         {
