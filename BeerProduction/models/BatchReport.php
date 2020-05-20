@@ -45,20 +45,33 @@ class BatchReport extends Database
         $stmt->execute();
         return;
     }
+
+    private function createStateLog($id){
+        $sql="INSERT INTO state_log
+        (Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Abort_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)
+        VALUES
+        (:Batch_id,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':Batch_id', $id);
+
+        $stmt->execute();
+        return;
+
+    }
     public function saveBatchReportToDB($data)
     {
-        $Batch_id = $data['batchID'];
-        $Product_type = $data['batchProductType'];
-        $Batch_size = $data['batchSize'];
-        $Acceptable_products = 0;
-        $Defect_products = 0;
+        $Batch_id = $data['batchID'];         
+        $Product_type = $data['batchProductType'];         
+        $Batch_size = $data['batchSize'];         
+        $Acceptable_products = 0;         
+        $Defect_products = 0;         
         $Production_speed = $data['batchSpeed'];
-
         $sql = "INSERT INTO Batch_reports
-                (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed)
+                (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed, start_time)
                 SELECT
-                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed
+                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed, now()
                 WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
+
 
         $stmt = $this->conn->prepare($sql);
 
@@ -70,24 +83,25 @@ class BatchReport extends Database
         $stmt->bindValue(':Production_speed', $Production_speed);
 
         $stmt->execute();
+        $this->createStateLog($Batch_id);
         return;
     }
 
     public function insertEnvironmentalLog($data)
     {
-        $humidity = $data->humidity;
-        $temperature = $data->temperature;
-        $vibration = $data->vibration;
+        $humidity = $data->Humidity;
+        $temperature = $data->Temperature;
+        $vibration = $data->Vibration;
 
         $sql = "INSERT INTO Environmental_log
                 (Batch_id, Temperature, Humidity, vibration, log_time)
-                Values((SELECT MAX(Batch_id FROM Batch_reports), :temperature, :humidity, :vibration, now());";
+                Values((SELECT MAX(Batch_id) FROM Batch_reports), :Temperature, :Humidity, :Vibration, now());";
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(':humidity', $humidity);
-        $stmt->bindValue(':temperature', $temperature);
-        $stmt->bindValue(':vibration', $vibration);
+        $stmt->bindValue(':Humidity', $humidity);
+        $stmt->bindValue(':Temperature', $temperature);
+        $stmt->bindValue(':Vibration', $vibration);
 
 
         $stmt->execute();
@@ -96,15 +110,15 @@ class BatchReport extends Database
 
     public function updateStateLog($data)
     {
-        $state = $this->findState($data->StateCurrent);
+        $state = $this->findState($data->CurrentState);
 
         $sql = "UPDATE State_log
-        SET :currentState = :currentState + 0.5
+        SET $state = $state + 0.5
         WHERE Batch_id = (SELECT MAX(Batch_id) FROM Batch_reports);";
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(':currentState', $state);
+        //$stmt->bindValue(':currentState', $state);
 
         $stmt->execute();
         return;
@@ -123,7 +137,7 @@ class BatchReport extends Database
                 return "Stopped_state";
                 break;
             case 3:
-                echo "Startint_state";
+                return "Startint_state";
                 break;
             case 4:
                 return "Idle_state";
@@ -156,7 +170,7 @@ class BatchReport extends Database
                 return "Completing_state";
                 break;
             case 17:
-                return "Complete_state";
+                return 'Completed_state';
                 break;
             case 18:
                 return "Deactivating_state";

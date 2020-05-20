@@ -5,6 +5,7 @@ var update = setInterval(updateData, 500);
 function updateData() {
     updateProductionData();
     updateProductionDataToDB();
+    updateLogs();
 
 }
 
@@ -39,6 +40,15 @@ function updateProductionDataToDB() {
     $.ajax({
         url: "/BatchReport/update",
         type: 'GET',
+        success: function (result) {
+            console.log(result);
+        }
+    });
+}
+function updateLogs(){
+    $.ajax({
+        url: "/ProductionData/logUpdate",
+        type: 'POST',
         success: function (result) {
             console.log(result);
         }

@@ -2,7 +2,6 @@
 
 class ProductionDataController extends Controller
 {
-
     public function __construct()
     {
     }
@@ -31,9 +30,13 @@ class ProductionDataController extends Controller
 
     public function getProductionData()
     {
-        $productionData = $this->model('ProductionData')->getProductionData();
-        $this->model('BatchReport')->insertEnvironmentalLog($productionData);
-        $this->model('BatchReport')->updateStateLog($productionData);
-        echo json_encode($productionData);
+        $_SESSION['productionData'] = $this->model('ProductionData')->getProductionData();
+        echo json_encode($_SESSION['productionData']);
+    }
+
+    public function logUpdate()
+    {
+        $this->model('BatchReport')->insertEnvironmentalLog($_SESSION['productionData']);
+        $this->model('BatchReport')->updateStateLog($_SESSION['productionData']);
     }
 }
