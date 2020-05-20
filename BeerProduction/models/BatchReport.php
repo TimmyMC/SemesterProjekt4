@@ -75,18 +75,16 @@ class BatchReport extends Database
 
     public function insertEnvironmentalLog($data)
     {
-        $Batch_id = $data->batchID;
         $humidity = $data->humidity;
         $temperature = $data->temperature;
         $vibration = $data->vibration;
 
         $sql = "INSERT INTO Environmental_log
                 (Batch_id, Temperature, Humidity, vibration, log_time)
-                Values(:Batch_id, :temperature, :humidity, :vibration, now());";
+                Values((SELECT MAX(Batch_id FROM Batch_reports), :temperature, :humidity, :vibration, now());";
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':humidity', $humidity);
         $stmt->bindValue(':temperature', $temperature);
         $stmt->bindValue(':vibration', $vibration);
@@ -98,16 +96,14 @@ class BatchReport extends Database
 
     public function updateStateLog($data)
     {
-        $Batch_id = $data->batchID;
         $state = $this->findState($data->StateCurrent);
 
         $sql = "UPDATE State_log
         SET :currentState = :currentState + 0.5
-        WHERE Batch_id = :Batch_id;";
+        WHERE Batch_id = (SELECT MAX(Batch_id) FROM Batch_reports);";
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':currentState', $state);
 
         $stmt->execute();
