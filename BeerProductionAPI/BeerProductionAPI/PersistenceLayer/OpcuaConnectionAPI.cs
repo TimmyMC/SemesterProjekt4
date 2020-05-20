@@ -43,11 +43,8 @@ namespace BeerProductionAPI
                 machineName = currentMachineName;
             }
             bool isSuccess = opcConnection.ConnectToServer(machineName);
-            if (isSuccess)
-            {
-                currentMachineName = machineName;
-                accessPoint = opcConnection.AccessPoint;
-            }
+            currentMachineName = machineName;
+            accessPoint = opcConnection.AccessPoint;
             return isSuccess;
         }
 
