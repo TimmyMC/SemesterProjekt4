@@ -1,5 +1,8 @@
-<?php include '../BeerProduction/views/partials/menu.php'; ?>
 
-OEE, <?= $viewbag['OEE'] ?></br>
+<?php 
+    echo("OEE is: ");
+    echo(implode(" ",$viewbag));
+     ?>
+OEE, <?= $viewbag['Pilsner'] ?></br>
 
-<?php include '../BeerProduction/views/partials/footer.php'; ?>
+

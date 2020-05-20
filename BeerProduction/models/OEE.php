@@ -1,6 +1,6 @@
 <?php
 
-class ProductionData
+class OEE extends Database
 {
     private $currentBatchID;
 
@@ -21,21 +21,20 @@ class ProductionData
     public function getOEEData($currentBatchIDData)
     {
         $currentBatchID = $currentBatchIDData;
-        $this->dataPilsner=calculateTotalOEE(getOEEDatafromDB(1), 600);
-        $this->dataWheat=calculateTotalOEE(getOEEDatafromDB(2), 300);
-        $this->dataIpa=calculateTotalOEE(getOEEDatafromDB(3), 150);
-        $this->dataStout=calculateTotalOEE(getOEEDatafromDB(4), 200);
-        $this->dataAle=calculateTotalOEE(getOEEDatafromDB(5), 100);
-        $this->dataAlcoholFree=calculateTotalOEE(getOEEDatafromDB(6), 125);
+        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 600);
+        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 300);
+        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 150);
+        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 200);
+        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 100);
+        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(6), 125);
         
-        $OEEData = array(
-            'Pilsner'=>$this->dataPilsner,
-            'Wheat'=>$this->dataWheat,
-            'Ipa'=>$this->dataIpa,
-            'Stout'=>$this->dataStout,
-            'Ale'=>$this->dataAle,
-            'AlcoholFree'=>$this->dataAlcoholFree
-    );
+        $OEEData['Pilsner'] = $this->dataPilsner;
+        $OEEData['Wheat'] = $this->dataWheat;
+        $OEEData['Ipa'] = $this->dataIpa;
+        $OEEData['Stout'] = $this->dataStout;
+        $OEEData['Ale'] = $this->dataAle;
+        $OEEData['AlcoholFree'] = $this->dataAlcoholFree;
+       
         return $OEEData;
     }
 
@@ -43,12 +42,12 @@ class ProductionData
 
     private function getOEEDatafromDB($productType)
     {
-        $sql = "SELECT batch_id, batch_size, acceptable_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type";
+        $sql = "SELECT batch_id, batch_size, acceptable_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type;";
 
         $stmt = $this->conn->prepare($sql);
 
         //Bind our variables.
-        $stmt->bindValue(':product_type', $this->productType);
+        $stmt->bindValue(':product_type', $productType);
 
         //Execute the statement.
         $stmt->execute();
@@ -58,9 +57,10 @@ class ProductionData
         return $result;
     }
 
-    private function getStateLogData($batchID){
+    private function getStateLogData($batchID)
+    {
         // state_logs?
-        $sql = "SELECT * FROM state_logs WHERE batch_id=:batchID";
+        $sql = "SELECT * FROM state_log WHERE batch_id=:batchID";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -81,16 +81,15 @@ class ProductionData
         $unusedBatchReportsCount = 0;
         foreach ($data as $key => $value) {
             $OEE;
-            if ($key['ProducedProducts'] == 0) {
+            if ($key['acceptable_products'] == 0) {
                 $OEE = 0;
                 $unusedBatchReportsCount++;
-            } 
+            }
             //key batch id is equal to current batch ID
-            elseif($key['batch_id']==$currentBatchID){
+            elseif ($key['batch_id']==$currentBatchID) {
                 $OEE = 0;
                 $unusedBatchReportsCount++;
-            } 
-            else {
+            } else {
                 
                 
                 
@@ -102,8 +101,8 @@ class ProductionData
                 $plannedProductionTime = array_sum($stateLogData)-$key['batch_id'];
                 
                 //calculate downtime from statelogs NOT AVAILABLE
-                $downtime = $plannedProductionTime-$stateLogData['Execute'];
-                $runtime = $stateLogData['Execute'];
+                $downtime = $plannedProductionTime-$stateLogData['execute_state'];
+                $runtime = $stateLogData['execute_state'];
                 /////////////////////////////////////////////////////////////////////
 
 
@@ -111,11 +110,11 @@ class ProductionData
 
 
                 //Calcualate Quality
-                $quality = CalculateQuality($key['Acceptable_products'], $key[ 'Defect_products']);
+                $quality = CalculateQuality($key['acceptable_products'], $key[ 'defect_products']);
                 //Calculate Availability
                 $availability = CalculateAvailability($plannedProductionTime, $downtime);
                 //Calculate Performance
-                $totalProducts=$key['Acceptable_products']+$key[ 'Defect_products'];
+                $totalProducts=$key['acceptable_products']+$key[ 'defect_products'];
                 $performance = CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
 
                 //Finally Calculate OEE
@@ -124,8 +123,12 @@ class ProductionData
             array_push($OEEList, $OEE);
         }
 
-        $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
-        return $averageOEE;
+        if (count($OEEList)==0) {
+            $averageOEE = 0;
+        } else {
+            $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
+            return $averageOEE;
+        }
     }
 
 
