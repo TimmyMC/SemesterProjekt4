@@ -82,6 +82,11 @@ namespace BeerProductionAPI
                     ValidConnection = false;
                     ReconnectToMachine();
                 }
+                catch (InvalidOperationException e)
+                {
+                    ValidConnection = false;
+                    ReconnectToMachine();
+                }
             }
             return null;
 
@@ -107,6 +112,11 @@ namespace BeerProductionAPI
                     ValidConnection = false;
                     ReconnectToMachine();
                 }
+                catch (InvalidOperationException e)
+                {
+                    ValidConnection = false;
+                    ReconnectToMachine();
+                }
             }
             return null;
 
@@ -126,6 +136,11 @@ namespace BeerProductionAPI
                     }
                 }
                 catch (NullReferenceException ex)
+                {
+                    ValidConnection = false;
+                    ReconnectToMachine();
+                }
+                catch (InvalidOperationException e)
                 {
                     ValidConnection = false;
                     ReconnectToMachine();
@@ -160,6 +175,11 @@ namespace BeerProductionAPI
                     ValidConnection = false;
                     ReconnectToMachine();
                 }
+                catch (InvalidOperationException e)
+                {
+                    ValidConnection = false;
+                    ReconnectToMachine();
+                }
             }
 
         }
@@ -190,6 +210,10 @@ namespace BeerProductionAPI
                     ValidConnection = false;
                     ReconnectToMachine();
                 }
+                catch (InvalidOperationException e)
+                {
+
+                }
             }
 
 
@@ -213,6 +237,11 @@ namespace BeerProductionAPI
                     return true;
                 }
                 catch (NullReferenceException ex)
+                {
+                    ValidConnection = false;
+                    ReconnectToMachine();
+                }
+                catch (InvalidOperationException e)
                 {
                     ValidConnection = false;
                     ReconnectToMachine();
