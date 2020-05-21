@@ -21,19 +21,21 @@ class OEE extends Database
     public function getOEEData($currentBatchIDData)
     {
         $currentBatchID = $currentBatchIDData;
-        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 600);
-        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 300);
-        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 150);
-        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 200);
-        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 100);
-        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(6), 125);
+        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 600, $currentBatchID);
+        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 300, $currentBatchID);
+        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 150, $currentBatchID);
+        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 200, $currentBatchID);
+        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 100, $currentBatchID);
+        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(6), 125, $currentBatchID);
         
-        $OEEData['Pilsner'] = $this->dataPilsner;
-        $OEEData['Wheat'] = $this->dataWheat;
-        $OEEData['Ipa'] = $this->dataIpa;
-        $OEEData['Stout'] = $this->dataStout;
-        $OEEData['Ale'] = $this->dataAle;
-        $OEEData['AlcoholFree'] = $this->dataAlcoholFree;
+        $OEEData[]= array(
+            'Pilsner' => $this->dataPilsner,
+            'Wheat' => $this->dataWheat,
+            'Ipa' => $this->dataIpa,
+            'Stout' => $this->dataStout,
+            'Ale' => $this->dataAle,
+            'AlcoholFree' => $this->dataAlcoholFree
+        );
        
         return $OEEData;
     }
@@ -52,13 +54,32 @@ class OEE extends Database
         //Execute the statement.
         $stmt->execute();
 
-        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($stmt->rowcount()> 0) {
+            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $result = array();
+                $result[]= array(
+                'batch_id'=>$data['batch_id'],
+                'batch_size' => $data['batch_size'],
+                'acceptable_products'=>$data['acceptable_products'],
+                'defect_products'=>$data['defect_products'],
+                'production_speed'=>$data['production_speed']
+            );
+            }
+        }
+        $result[]= array(
+            'batch_id'=>0,
+            'batch_size' =>0,
+            'acceptable_products'=>0,
+            'defect_products'=>0,
+            'production_speed'=>0
+        );
 
         return $result;
     }
 
     private function getStateLogData($batchID)
     {
+        $result = array();
         // state_logs?
         $sql = "SELECT * FROM state_log WHERE batch_id=:batchID";
 
@@ -72,21 +93,48 @@ class OEE extends Database
 
         $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $result[]= array(
+                'batch_id'=>$data['batch_id'],
+                'deactivated_state' => $data['deactivated_state'],
+                'clearing_state' => $data['clearing_state'],
+                'stopped_state' => $data['stopped_state'],
+                'starting_state' => $data['starting_state'],
+                'idle_state' => $data['idle_state'],
+                'suspended_state' => $data['suspended_state'],
+                'execute_state' => $data['execute_state'],
+                'stopped_state' => $data['stopped_state'],
+                'aborting_state' => $data['aborting_state'],
+                'abort_state' => $data['abort_state'],
+                'holding_state' => $data['holding_state'],
+                'held_state' => $data['held_state'],
+                'resetting_state' => $data['resetting_state'],
+                'completing_state' => $data['completing_state'],
+                'completed_state' => $data['completed_state'],
+                'deactive_state' => $data['deactive_state'],
+                'activating_state' => $data['activating_state']
+              
+            );
+        }
+
         return $result;
     }
 
-    private function calculateTotalOEE($data, $MaxProductionSpeed)
+    private function calculateTotalOEE($data, $MaxProductionSpeed, $currentBatchID)
     {
         $OEEList = array();
         $unusedBatchReportsCount = 0;
-        foreach ($data as $key => $value) {
+        $OEE = 0;
+        foreach ($data as $batchReport) {
             $OEE;
-            if ($key['acceptable_products'] == 0) {
-                $OEE = 0;
-                $unusedBatchReportsCount++;
+            $acceptableProducts =$batchReport['acceptable_products'];
+            
+            if ( $acceptableProducts == 0) {
+              $OEE = 0;
+             $unusedBatchReportsCount++;
             }
             //key batch id is equal to current batch ID
-            elseif ($key['batch_id']==$currentBatchID) {
+            elseif ($batchReport['batch_id']==$currentBatchID) {
                 $OEE = 0;
                 $unusedBatchReportsCount++;
             } else {
@@ -94,36 +142,43 @@ class OEE extends Database
                 
                 
                 /////////////////////////////////////////////////////////////////////
-                $batchID = $key['batch_id'];
-                $stateLogData = getStateLogData($batchID);
+                $batchID = $batchReport['batch_id'];
+                $stateLogData = $this->getStateLogData($batchID);
                 
-                //calculate runtime from start time and end time NOT AVAILABLE
-                $plannedProductionTime = array_sum($stateLogData)-$key['batch_id'];
+                foreach ($stateLogData as $stateLog) {
+                    //calculate runtime from start time and end time NOT AVAILABLE
+                    $plannedProductionTime = array_sum($stateLog)-$batchReport['batch_id'];
                 
-                //calculate downtime from statelogs NOT AVAILABLE
-                $downtime = $plannedProductionTime-$stateLogData['execute_state'];
-                $runtime = $stateLogData['execute_state'];
-                /////////////////////////////////////////////////////////////////////
+                    //calculate downtime from statelogs NOT AVAILABLE
+                    $downtime = $plannedProductionTime-$stateLog['execute_state'];
+                    $runtime = $stateLog['execute_state'];
+                    /////////////////////////////////////////////////////////////////////
 
 
 
 
 
-                //Calcualate Quality
-                $quality = CalculateQuality($key['acceptable_products'], $key[ 'defect_products']);
-                //Calculate Availability
-                $availability = CalculateAvailability($plannedProductionTime, $downtime);
-                //Calculate Performance
-                $totalProducts=$key['acceptable_products']+$key[ 'defect_products'];
-                $performance = CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
+                    //Calcualate Quality
+                    $quality = $this->CalculateQuality($batchReport['acceptable_products'], $batchReport[ 'defect_products']);
+                    //Calculate Availability
+                    $availability = $this->CalculateAvailability($plannedProductionTime, $downtime);
+                    //Calculate Performance
+                    $totalProducts=$batchReport['acceptable_products']+$batchReport[ 'defect_products'];
+                    $performance = $this->CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
 
-                //Finally Calculate OEE
-                $OEE = CalculateOEE($quality, $availability, $performance);
+                    //Finally Calculate OEE
+                    $OEE = $this->CalculateOEE($quality, $availability, $performance);
+                }
             }
             array_push($OEEList, $OEE);
+            
         }
-
+        
+        
+        
         if (count($OEEList)==0) {
+            $averageOEE = 0;
+        } elseif ((count($OEEList)-$unusedBatchReportsCount)==0) {
             $averageOEE = 0;
         } else {
             $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
