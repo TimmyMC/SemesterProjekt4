@@ -212,8 +212,7 @@ namespace BeerProductionAPI
                 }
                 catch (InvalidOperationException e)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+
                 }
             }
 
