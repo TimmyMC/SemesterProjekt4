@@ -29,12 +29,12 @@ class OEE extends Database
         $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
         
         $OEEData= array(
-            'Pilsner' => $this->dataPilsner,
-            'Wheat' => $this->dataWheat,
-            'Ipa' => $this->dataIpa,
-            'Stout' => $this->dataStout,
-            'Ale' => $this->dataAle,
-            'AlcoholFree' => $this->dataAlcoholFree
+            'Pilsner' => ($this->dataPilsner) * 100,
+            'Wheat' => ($this->dataWheat) * 100,
+            'Ipa' => ($this->dataIpa) * 100,
+            'Stout' => ($this->dataStout) * 100,
+            'Ale' => ($this->dataAle) * 100,
+            'AlcoholFree' => ($this->dataAlcoholFree) * 100
         );
        
         return $OEEData;
