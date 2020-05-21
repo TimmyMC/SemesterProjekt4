@@ -129,57 +129,40 @@ class BatchReport extends Database
         switch ($state) {
             case 0:
                 return "Deactivated_state";
-                break;
             case 1:
                 return "Clearing_state";
-                break;
             case 2:
                 return "Stopped_state";
-                break;
             case 3:
                 return "Startint_state";
-                break;
             case 4:
                 return "Idle_state";
-                break;
             case 5:
                 return "Suspended_state";
-                break;
             case 6:
                 return "Execute_state";
-                break;
             case 7:
                 return "Stopping_state";
-                break;
             case 8:
                 return "Aborting_state";
-                break;
             case 9:
                 return "Aborted_state";
-                break;
             case 10:
                 return "Holding_state";
-                break;
             case 11:
                 return "Held_state";
-                break;
             case 15:
                 return "Resetting_state";
-                break;
             case 16:
                 return "Completing_state";
-                break;
             case 17:
-                return 'Completed_state';
-                break;
+                return "Completed_state";
             case 18:
                 return "Deactivating_state";
-                break;
             case 19:
                 return "Activating_state";
-                break;
             default:
-                echo "shite";
+            break;
         }
     }
 }
