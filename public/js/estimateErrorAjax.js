@@ -6,8 +6,8 @@ $('#startProductionForm').submit(function (e) {
         url: '/production/produceBatch',
         type: 'post',
         data: $('#startProductionForm').serialize(),
-        success: function () {
-            console.log("Batch started.")
+        success: function (result) {
+            console.log(result)
         }
     });
 });

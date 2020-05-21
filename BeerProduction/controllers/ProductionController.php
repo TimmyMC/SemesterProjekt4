@@ -12,7 +12,7 @@ class ProductionController extends Controller
         $viewbag['AcceptableProducts'] = $productionData->ProducedProducts - $productionData->DefectProducts;
         $viewbag['ActualMachineSpeed'] = $productionData->ActualMachineSpeed;
         $viewbag['Barley'] = $productionData->Barley;
-        $viewbag['BatchID'] = $productionData->BatchID;
+        $viewbag['BatchID'] = $productionData->CurrentBatchID;
         $viewbag['BatchSize'] = $productionData->BatchSize;
         $viewbag['CurrentState'] = $productionData->CurrentState;
         $viewbag['DefectProducts'] = $productionData->DefectProducts;
@@ -61,9 +61,14 @@ class ProductionController extends Controller
                 'batchSize' => $_POST['batchSize']
             );
 
-            $this->model('BatchProductionModel')->produceBatch($parameters);
+            $latestBatchID = $this->model('BatchReport')->saveBatchReportToDB($parameters);
+            
+            $parameters['batchID'] = $latestBatchID;
 
-            echo '<h2>Data Sent</h2>';
+            $this->model('BatchProductionModel')->produceBatch($parameters);
+            
+            
+            return $latestBatchID;
         }
     }
 

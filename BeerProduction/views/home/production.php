@@ -13,7 +13,7 @@
   </br>
 
   <label for="batchSpeed">0</label>
-  <input id="batchSpeed" name="batchSpeed" type="range" min="1" max="<?= $viewbag['maxSpeed'] ?>" value="<?= $viewbag['machineSpeed'] ?>" oninput="getEstimatedError(batchProductType.value, this.value)">
+  <input id="batchSpeed" name="batchSpeed" type="range" min="1" max="<?= $viewbag['maxSpeed'] ?>" value="<?= $viewbag['machineSpeed'] ?>" onChange="getEstimatedError(batchProductType.value, this.value)">
   <!-- TODO oninput creates a massive amount of ajax calls which may lag due to the cisco vpn, if this happens change it to onchange -->
   <label id="maxSpeedLabel" for="batchSpeed"><?= $viewbag['maxSpeed'] ?></label>
   </br>

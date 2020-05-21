@@ -52,22 +52,19 @@ class BatchReport extends Database
     }
     public function saveBatchReportToDB($data)
     {
-        $Batch_id = $data['batchID'];
         $Product_type = $data['batchProductType'];
         $Batch_size = $data['batchSize'];
         $Produced_products =0;
         $Defect_products = 0;
         $Production_speed = $data['batchSpeed'];
         $sql = "INSERT INTO Batch_reports
-                (Batch_id, Product_type, Batch_size, Produced_products, Defect_products, Production_speed, start_time)
+                (Product_type, Batch_size, Produced_products, Defect_products, Production_speed, start_time)
                 SELECT
-                :Batch_id, :Product_type, :Batch_size, :Produced_products, :Defect_products, :Production_speed, now()
-                WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
+                :Product_type, :Batch_size, :Produced_products, :Defect_products, :Production_speed, now();";
 
 
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':Product_type', $Product_type);
         $stmt->bindValue(':Batch_size', $Batch_size);
         $stmt->bindValue(':Produced_products', $Produced_products);
@@ -75,8 +72,10 @@ class BatchReport extends Database
         $stmt->bindValue(':Production_speed', $Production_speed);
 
         $stmt->execute();
-        $this->createStateLog($Batch_id);
-        return;
+        $batchID = $this->conn->lastInsertId();
+        print_r($batchID);
+        $this->createStateLog($batchID);
+        return $batchID;
     }
 
     public function insertEnvironmentalLog($data)
