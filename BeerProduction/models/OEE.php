@@ -44,7 +44,7 @@ class OEE extends Database
 
     private function getOEEDatafromDB($productType)
     {
-        $sql = "SELECT batch_id, batch_size, acceptable_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type;";
+        $sql = "SELECT batch_id, batch_size, produced_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type;";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -60,7 +60,7 @@ class OEE extends Database
                 $result[]= array(
                 'batch_id'=>$data['batch_id'],
                 'batch_size' => $data['batch_size'],
-                'acceptable_products'=>$data['acceptable_products'],
+                'produced_products'=>$data['produced_products'],
                 'defect_products'=>$data['defect_products'],
                 'production_speed'=>$data['production_speed']
             );
@@ -69,7 +69,7 @@ class OEE extends Database
         $result[]= array(
             'batch_id'=>0,
             'batch_size' =>0,
-            'acceptable_products'=>0,
+            'produced_products'=>0,
             'defect_products'=>0,
             'production_speed'=>0
         );
@@ -127,7 +127,7 @@ class OEE extends Database
         $OEE = 0;
         foreach ($data as $batchReport) {
             $OEE;
-            $acceptableProducts =$batchReport['acceptable_products'];
+            $acceptableProducts =$batchReport['produced_products'];
             
             if ($acceptableProducts == 0) {
                 $OEE = 0;
@@ -159,11 +159,11 @@ class OEE extends Database
 
 
                     //Calcualate Quality
-                    $quality = $this->CalculateQuality($batchReport['acceptable_products'], $batchReport[ 'defect_products']);
+                    $quality = $this->CalculateQuality($batchReport['produced_products'], $batchReport[ 'defect_products']);
                     //Calculate Availability
                     $availability = $this->CalculateAvailability($plannedProductionTime, $downtime);
                     //Calculate Performance
-                    $totalProducts=$batchReport['acceptable_products']+$batchReport[ 'defect_products'];
+                    $totalProducts=$batchReport['produced_products'];
                     $performance = $this->CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
 
                     //Finally Calculate OEE
@@ -198,10 +198,10 @@ class OEE extends Database
         return $OEE;
     }
 
-    private function calculateQuality($acceptableProducts, $defectProducts)
+    private function calculateQuality($produced_products, $defectProducts)
     {
-        $producedProducts = $acceptableProducts + $defectProducts;
-        $quality = $acceptableProducts / $producedProducts;
+        $acceptableProducts = $produced_products - $defectProducts;
+        $quality = $acceptableProducts / $produced_products;
 
         return $quality;
     }
