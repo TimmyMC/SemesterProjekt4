@@ -21,14 +21,14 @@ class OEE extends Database
     public function getOEEData($currentBatchIDData)
     {
         $currentBatchID = $currentBatchIDData;
-        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 600, $currentBatchID);
-        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 300, $currentBatchID);
-        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 150, $currentBatchID);
-        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 200, $currentBatchID);
-        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 100, $currentBatchID);
-        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(6), 125, $currentBatchID);
+        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(0), 600, $currentBatchID);
+        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 300, $currentBatchID);
+        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 150, $currentBatchID);
+        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 200, $currentBatchID);
+        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 100, $currentBatchID);
+        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
         
-        $OEEData[]= array(
+        $OEEData= array(
             'Pilsner' => $this->dataPilsner,
             'Wheat' => $this->dataWheat,
             'Ipa' => $this->dataIpa,
@@ -129,9 +129,9 @@ class OEE extends Database
             $OEE;
             $acceptableProducts =$batchReport['acceptable_products'];
             
-            if ( $acceptableProducts == 0) {
-              $OEE = 0;
-             $unusedBatchReportsCount++;
+            if ($acceptableProducts == 0) {
+                $OEE = 0;
+                $unusedBatchReportsCount++;
             }
             //key batch id is equal to current batch ID
             elseif ($batchReport['batch_id']==$currentBatchID) {
@@ -171,7 +171,6 @@ class OEE extends Database
                 }
             }
             array_push($OEEList, $OEE);
-            
         }
         
         
@@ -182,8 +181,8 @@ class OEE extends Database
             $averageOEE = 0;
         } else {
             $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
-            return $averageOEE;
         }
+        return $averageOEE;
     }
 
 
