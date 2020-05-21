@@ -20,11 +20,10 @@ class BatchReportController extends Controller
         $this->view('BatchReport/BatchReport', $viewbag);
     }
 
-    public function save()
+    public function saveBatchReport()
     {
         $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
         $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
-        echo 'batch report saved';
     }
     public function update()
     {

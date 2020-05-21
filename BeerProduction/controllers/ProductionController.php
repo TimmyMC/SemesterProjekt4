@@ -1,10 +1,11 @@
 <?php
 
-class ProductionDataController extends Controller
+class ProductionController extends Controller
 {
     public function __construct()
     {
     }
+
     public function index()
     {
         $productionData = $this->model('ProductionData')->getProductionData();
@@ -25,7 +26,18 @@ class ProductionDataController extends Controller
         $viewbag['Wheat'] = $productionData->Wheat;
         $viewbag['Yeast'] = $productionData->Yeast;
 
-        $this->view('home/productionData', $viewbag);
+        //initial page data
+        $productType = 0; //pilsner
+        $viewbag['machineSpeed'] = 400;
+        $viewbag['estimatedError'] = $this->model('EstimateError')->estimateErrorFunction($productType, $viewbag['machineSpeed']);
+        $viewbag['maxSpeed'] = 600;
+
+
+        $this->view('home/production', $viewbag);
+
+        // $this->view('BatchProduction/BatchProductionView');
+
+        // $this->view('EstimateError/EstimateError', $viewbag);
     }
 
     public function getProductionData()
@@ -38,5 +50,34 @@ class ProductionDataController extends Controller
     {
         $this->model('BatchReport')->insertEnvironmentalLog($_SESSION['productionData']);
         $this->model('BatchReport')->updateStateLog($_SESSION['productionData']);
+    }
+
+    public function produceBatch()
+    {
+        if ($this->post()) {
+            $parameters = array(
+                'batchProductType' => $_POST['batchProductType'],
+                'batchSpeed' => $_POST['batchSpeed'],
+                'batchSize' => $_POST['batchSize']
+            );
+
+            $this->model('BatchProductionModel')->produceBatch($parameters);
+
+            echo '<h2>Data Sent</h2>';
+        }
+    }
+
+    public function getMaxSpeed($productType)
+    {
+        if ($this->get()) {
+            echo $this->model('EstimateError')->getMaxSpeed($productType);
+        }
+    }
+
+    public function estimateErrorFunction($productType, $machineSpeed)
+    {
+        if ($this->get()) {
+            echo $this->model('EstimateError')->estimateErrorFunction($productType, $machineSpeed);
+        }
     }
 }

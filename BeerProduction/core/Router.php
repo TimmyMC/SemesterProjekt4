@@ -3,7 +3,7 @@
 class Router
 {
 
-	protected $controller = 'ProductionDataController';
+	protected $controller = 'ProductionController';
 	protected $method = 'index';
 	protected $params = [];
 

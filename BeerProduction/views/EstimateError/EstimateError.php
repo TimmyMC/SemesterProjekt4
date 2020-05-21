@@ -1,4 +1,3 @@
-<?php include '../BeerProduction/views/partials/menu.php'; ?>
 
 <h2>Estimate Error Function</h2>
 <p>Production Speed:</p>
@@ -20,6 +19,3 @@
 </form>
 
 The estimated error is: <p id="errorEstimate"><?= $viewbag['estimatedError'] ?></p></br>
-
-<script src="/js/estimateErrorAjax.js"></script>
-<?php include '../BeerProduction/views/partials/footer.php'; ?>
