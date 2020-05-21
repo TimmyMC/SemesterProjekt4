@@ -17,7 +17,7 @@ namespace BeerProductionAPI
 
         UInt16 ReadBatchID(OpcClient accessPoint);
 
-        ushort ReadBatchSize(OpcClient accessPoint);
+        float ReadBatchSize(OpcClient accessPoint);
 
         float ReadHumidity(OpcClient accessPoint);
 

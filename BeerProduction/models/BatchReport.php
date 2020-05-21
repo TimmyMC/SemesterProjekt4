@@ -13,40 +13,33 @@ class BatchReport extends Database
         return $batchReport_data;
     }
 
-    public function updateBatchReportToDB($batchReport_data)
+    public function updateBatchReportToDB($data)
     {
-        $data = $batchReport_data;
-        $Batch_id = $data->BatchID;
-        $Product_type = $data->ProductType;
-        $Batch_size = $data->BatchSize;
-        $Acceptable_products = $data->AcceptableProducts;
+        $Batch_id = $data->CurrentBatchID;
+        $Produced_products = $data->ProducedProducts;
         $Defect_products = $data->DefectProducts;
-        $Production_speed = $data->ActualMachineSpeed;
+
+ 
 
         $sql = "UPDATE Batch_reports
-                SET Product_type = :Product_type,
-                Batch_size = :Batch_size,
-                Acceptable_products = :Acceptable_products,
-                Defect_products = :Defect_products,
-                Production_speed = :Production_speed
-                WHERE Batch_id = :Batch_id;";
+                SET Produced_products = :Produced_products,
+                Defect_products = :Defect_products
+                WHERE Batch_id = :Batch_id";
 
         $stmt = $this->conn->prepare($sql);
 
         //Bind our variables.
         $stmt->bindValue(':Batch_id', $Batch_id);
-        $stmt->bindValue(':Product_type', $Product_type);
-        $stmt->bindValue(':Batch_size', $Batch_size);
-        $stmt->bindValue(':Acceptable_products', $Acceptable_products);
+        $stmt->bindValue(':Produced_products', $Produced_products);
         $stmt->bindValue(':Defect_products', $Defect_products);
-        $stmt->bindValue(':Production_speed', $Production_speed);
 
         //Execute the statement and insert the new user account.
         $stmt->execute();
         return;
     }
 
-    private function createStateLog($id){
+    private function createStateLog($id)
+    {
         $sql="INSERT INTO state_log
         (Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Abort_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)
         VALUES
@@ -56,20 +49,19 @@ class BatchReport extends Database
 
         $stmt->execute();
         return;
-
     }
     public function saveBatchReportToDB($data)
     {
-        $Batch_id = $data['batchID'];         
-        $Product_type = $data['batchProductType'];         
-        $Batch_size = $data['batchSize'];         
-        $Acceptable_products = 0;         
-        $Defect_products = 0;         
+        $Batch_id = $data['batchID'];
+        $Product_type = $data['batchProductType'];
+        $Batch_size = $data['batchSize'];
+        $Produced_products =0;
+        $Defect_products = 0;
         $Production_speed = $data['batchSpeed'];
         $sql = "INSERT INTO Batch_reports
-                (Batch_id, Product_type, Batch_size, Acceptable_products, Defect_products, Production_speed, start_time)
+                (Batch_id, Product_type, Batch_size, Produced_products, Defect_products, Production_speed, start_time)
                 SELECT
-                :Batch_id, :Product_type, :Batch_size, :Acceptable_products, :Defect_products, :Production_speed, now()
+                :Batch_id, :Product_type, :Batch_size, :Produced_products, :Defect_products, :Production_speed, now()
                 WHERE NOT EXISTS (SELECT 1 FROM Batch_reports WHERE Batch_id=:Batch_id);";
 
 
@@ -78,7 +70,7 @@ class BatchReport extends Database
         $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':Product_type', $Product_type);
         $stmt->bindValue(':Batch_size', $Batch_size);
-        $stmt->bindValue(':Acceptable_products', $Acceptable_products);
+        $stmt->bindValue(':Produced_products', $Produced_products);
         $stmt->bindValue(':Defect_products', $Defect_products);
         $stmt->bindValue(':Production_speed', $Production_speed);
 

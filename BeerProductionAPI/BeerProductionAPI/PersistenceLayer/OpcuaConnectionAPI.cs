@@ -71,7 +71,7 @@ namespace BeerProductionAPI
                         machineReadData.ReadMaintenanceCounter(accessPoint),
                         machineReadData.ReadCurrentState(accessPoint),
                         machineReadData.ReadNextBatchID(accessPoint),
-                        machineReadData.ReadNextBatchSize(accessPoint),
+                        machineReadData.ReadBatchSize(accessPoint),
                         machineReadData.ReadBatchID(accessPoint)
                         //0
                         );

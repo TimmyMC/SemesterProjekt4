@@ -16,9 +16,9 @@ function updateProductionData() {
         type: 'GET',
         success: function (result) {
             console.log(result);
-            document.getElementById('AcceptableProducts').innerHTML = result['AcceptableProducts'];
+            document.getElementById('AcceptableProducts').innerHTML =(result['ProducedProducts'])-(result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
-            document.getElementById('BatchID').innerHTML = result['BatchID'];
+            document.getElementById('BatchID').innerHTML = result['CurrentBatchID'];
             document.getElementById('BatchSize').innerHTML = result['BatchSize'];
             document.getElementById('CurrentState').innerHTML = result['CurrentState'];
             document.getElementById('DefectProducts').innerHTML = result['DefectProducts'];

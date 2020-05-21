@@ -8,7 +8,7 @@ class ProductionDataController extends Controller
     public function index()
     {
         $productionData = $this->model('ProductionData')->getProductionData();
-        $viewbag['AcceptableProducts'] = $productionData->AcceptableProducts;
+        $viewbag['AcceptableProducts'] = $productionData->ProducedProducts - $productionData->DefectProducts;
         $viewbag['ActualMachineSpeed'] = $productionData->ActualMachineSpeed;
         $viewbag['Barley'] = $productionData->Barley;
         $viewbag['BatchID'] = $productionData->BatchID;

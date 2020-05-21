@@ -64,9 +64,9 @@ namespace BeerProductionAPI
             return (UInt16)accessPoint.ReadNode(nodeIDDictionary[NodeID.BatchID]).Value;
         }
 
-        public ushort ReadBatchSize(OpcClient accessPoint)
+        public float ReadBatchSize(OpcClient accessPoint)
         {
-            return (ushort)accessPoint.ReadNode(nodeIDDictionary[NodeID.BatchSize]).Value;
+            return (float)accessPoint.ReadNode(nodeIDDictionary[NodeID.BatchSize]).Value;
         }
 
         public bool ReadCommandChangeRequest(OpcClient accessPoint)
