@@ -4,7 +4,9 @@ var update = setInterval(updateData, 500);
 
 function updateData() {
     updateProductionData();
-    saveProductionData();
+    updateProductionDataToDB();
+    updateLogs();
+
 }
 
 function updateProductionData() {
@@ -14,9 +16,9 @@ function updateProductionData() {
         type: 'GET',
         success: function (result) {
             console.log(result);
-            document.getElementById('AcceptableProducts').innerHTML = result['AcceptableProducts'];
+            document.getElementById('AcceptableProducts').innerHTML =(result['ProducedProducts'])-(result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
-            document.getElementById('BatchID').innerHTML = result['BatchID'];
+            document.getElementById('BatchID').innerHTML = result['CurrentBatchID'];
             document.getElementById('BatchSize').innerHTML = result['BatchSize'];
             document.getElementById('CurrentState').innerHTML = result['CurrentState'];
             document.getElementById('DefectProducts').innerHTML = result['DefectProducts'];
@@ -34,13 +36,23 @@ function updateProductionData() {
     });
 }
 
-function saveProductionData(){
+function updateProductionDataToDB() {
     $.ajax({
-        url: "/BatchReport/save",
+        url: "/BatchReport/update",
         type: 'GET',
         success: function (result) {
             console.log(result);
         }
     });
 }
+function updateLogs(){
+    $.ajax({
+        url: "/ProductionData/logUpdate",
+        type: 'POST',
+        success: function (result) {
+            console.log(result);
+        }
+    });
+}
+
 

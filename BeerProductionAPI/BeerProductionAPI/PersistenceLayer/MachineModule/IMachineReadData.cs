@@ -1,4 +1,5 @@
 ﻿using Opc.UaFx.Client;
+using System;
 
 namespace BeerProductionAPI
 {
@@ -14,9 +15,9 @@ namespace BeerProductionAPI
 
         int ReadCurrentState(OpcClient accessPoint);
 
-        float ReadBatchID(OpcClient accessPoint);
+        UInt16 ReadBatchID(OpcClient accessPoint);
 
-        ushort ReadBatchSize(OpcClient accessPoint);
+        float ReadBatchSize(OpcClient accessPoint);
 
         float ReadHumidity(OpcClient accessPoint);
 

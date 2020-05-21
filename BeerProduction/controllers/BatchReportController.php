@@ -14,7 +14,7 @@ class BatchReportController extends Controller
         $viewbag['ProductType'] = $this->batchReportData->ProductType;
         $viewbag['ActualMachineSpeed'] = $this->batchReportData->ActualMachineSpeed;
         $viewbag['ProducedProducts'] = $this->batchReportData->ProducedProducts;
-        $viewbag['AcceptableProducts'] = $this->batchReportData->AcceptableProducts;
+        $viewbag['AcceptableProducts'] = $this->batchReportData->ProducedProducts - $this->batchReportData->DefectProducts;
         $viewbag['DefectProducts'] = $this->batchReportData->DefectProducts;
 
         $this->view('BatchReport/BatchReport', $viewbag);
@@ -25,5 +25,11 @@ class BatchReportController extends Controller
         $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
         $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
         echo 'batch report saved';
+    }
+    public function update()
+    {
+        $this->batchReportData = $this->model('ProductionData')->getProductionData();
+        $this->model('BatchReport')->updateBatchReportToDB($this->batchReportData);
+        echo 'batch report updated';
     }
 }

@@ -21,6 +21,9 @@ class BatchProductionController extends Controller
 
         $this->model('BatchProductionModel')->produceBatch($parameters);
 
+        //Save initial batch report
+        $this->model('BatchReport')->saveBatchReportToDB($parameters);
+
         echo '<h2>Data Sent</h2>';
     }
 }

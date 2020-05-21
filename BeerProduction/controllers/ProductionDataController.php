@@ -2,14 +2,13 @@
 
 class ProductionDataController extends Controller
 {
-
     public function __construct()
     {
     }
     public function index()
     {
         $productionData = $this->model('ProductionData')->getProductionData();
-        $viewbag['AcceptableProducts'] = $productionData->AcceptableProducts;
+        $viewbag['AcceptableProducts'] = $productionData->ProducedProducts - $productionData->DefectProducts;
         $viewbag['ActualMachineSpeed'] = $productionData->ActualMachineSpeed;
         $viewbag['Barley'] = $productionData->Barley;
         $viewbag['BatchID'] = $productionData->BatchID;
@@ -31,7 +30,13 @@ class ProductionDataController extends Controller
 
     public function getProductionData()
     {
-        $productionData = $this->model('ProductionData')->getProductionData();
-        echo json_encode($productionData);
+        $_SESSION['productionData'] = $this->model('ProductionData')->getProductionData();
+        echo json_encode($_SESSION['productionData']);
+    }
+
+    public function logUpdate()
+    {
+        $this->model('BatchReport')->insertEnvironmentalLog($_SESSION['productionData']);
+        $this->model('BatchReport')->updateStateLog($_SESSION['productionData']);
     }
 }
