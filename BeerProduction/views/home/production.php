@@ -1,8 +1,8 @@
 <?php include '../BeerProduction/views/partials/menu.php'; ?>
 
 <div class="row">
-  <div class="col-3">
-    <div class="card">
+  <div class="p-2 col-md-3">
+    <div class="card h-100">
       <div class="card-body">
         <form id="startProductionForm">
           <div class="form-group">
@@ -37,49 +37,49 @@
     </div>
   </div>
 
-  <div class="col-9">
-    <div class="card">
+  <div class="p-2 col-md-9">
+    <div class="card h-100">
       <div class="card-body">
         <div class="row justify-content-center">
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/Temperature.jpg">
             <label id='Temperature'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/BatchID.jpg">
             <label id='BatchID'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/AcceptableProducts.jpg">
             <label id='AcceptableProducts'></label>
           </div>
 
           <div class="w-100"></div>
 
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/Humidity.jpg">
             <label id='Humidity'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/Produced.jpg">
             <label id='ProducedProducts'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/DefectProducts.jpg">
             <label id='DefectProducts'></label>
           </div>
 
           <div class="w-100"></div>
 
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/Vibration.jpg">
             <label id='Vibration'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/AmountToProduce.jpg">
             <label id='BatchSize'></label>
           </div>
-          <div class="col-3">
+          <div class="p-2 col-md-3">
             <img src="/pictures/ProductsPerMinute.jpg">
             <label id='ActualMachineSpeed'></label>
           </div>
@@ -91,8 +91,8 @@
 </div>
 
 <div class="row">
-  <div class="col-10">
-    <div class="card">
+  <div class="p-2 col-md-10">
+    <div class="card h-100">
       <div class="card-body">
         <label>Barley</label><br>
         <div class="progress">
@@ -125,12 +125,12 @@
       </div>
     </div>
   </div>
-  <div class="col-2">
-    <div class="card">
+  <div class="p-2 col-md-2">
+    <div class="card h-100">
       <div class="card-body text-center">
         <label>Maintainence Meter</label><br>
-        <div class="progress" style="width:50%; height:100%">
-          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="30000" style="width:100%"></div>
+        <div class="progress mx-auto" style="width:50%; height:80%">
+          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped bg-success w-100 position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="30000"></div>
         </div>
       </div>
     </div>

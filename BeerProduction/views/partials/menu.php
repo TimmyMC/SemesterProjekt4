@@ -7,10 +7,12 @@
 
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">BeerProduction</a>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a class="nav-link" href="/batchReport">Batch Reports</a></li>
-        </ul>
+        <div class="container-xl">
+            <a class="navbar-brand" href="/">BeerProduction</a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a class="nav-link" href="/batchReport">Batch Reports</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container-xl">

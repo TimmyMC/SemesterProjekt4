@@ -38,7 +38,10 @@ function updateProductionData() {
             document.getElementById('Malt').style.width = result['Malt'] / 35000 * 100 + '%';
             document.getElementById('Wheat').style.width = result['Wheat'] / 35000 * 100 + '%';
             document.getElementById('Yeast').style.width = result['Yeast'] / 35000 * 100 + '%';
-            document.getElementById('MaintainenceMeter').style.height = result['MaintainenceMeter'] / 35000 * 100 + '%';
+
+            maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
+            document.getElementById('MaintainenceMeter').style.height = maintainencePercent + '%';
+            document.getElementById('MaintainenceMeter').style.top = maintainencePercent + '%';
 
             var currentState = result['CurrentState'].replace('_', ' ');
             document.getElementById('CurrentState').innerHTML = currentState;
