@@ -40,8 +40,22 @@ function updateProductionData() {
             document.getElementById('Yeast').style.width = result['Yeast'] / 35000 * 100 + '%';
 
             maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
+            // maintainencePercent = 59;
             document.getElementById('MaintainenceMeter').style.height = maintainencePercent + '%';
-            document.getElementById('MaintainenceMeter').style.top = maintainencePercent + '%';
+
+            if (maintainencePercent >= 85) {
+                document.getElementById('MaintainenceMeter').classList.add("bg-danger");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-warning");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-success");
+            } else if (maintainencePercent >= 60) {
+                document.getElementById('MaintainenceMeter').classList.add("bg-warning");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-danger");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-success");
+            } else {
+                document.getElementById('MaintainenceMeter').classList.add("bg-success");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-warning");
+                document.getElementById('MaintainenceMeter').classList.remove("bg-danger");
+            }
 
             var currentState = result['CurrentState'].replace('_', ' ');
             document.getElementById('CurrentState').innerHTML = currentState;

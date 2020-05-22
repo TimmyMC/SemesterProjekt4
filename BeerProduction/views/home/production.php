@@ -42,45 +42,45 @@
       <div class="card-body">
         <div class="row justify-content-center">
           <div class="p-2 col-md-3">
-            <img src="/pictures/Temperature.jpg">
+            <img src="/pictures/Temperature.png">
             <label id='Temperature'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/BatchID.jpg">
+            <img src="/pictures/BatchID.png">
             <label id='BatchID'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/AcceptableProducts.jpg">
+            <img src="/pictures/AcceptableProducts.png">
             <label id='AcceptableProducts'></label>
           </div>
 
           <div class="w-100"></div>
 
           <div class="p-2 col-md-3">
-            <img src="/pictures/Humidity.jpg">
+            <img src="/pictures/Humidity.png">
             <label id='Humidity'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/Produced.jpg">
+            <img src="/pictures/Produced.png">
             <label id='ProducedProducts'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/DefectProducts.jpg">
+            <img src="/pictures/DefectProducts.png">
             <label id='DefectProducts'></label>
           </div>
 
           <div class="w-100"></div>
 
           <div class="p-2 col-md-3">
-            <img src="/pictures/Vibration.jpg">
+            <img src="/pictures/Vibration.png">
             <label id='Vibration'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/AmountToProduce.jpg">
+            <img src="/pictures/AmountToProduce.png">
             <label id='BatchSize'></label>
           </div>
           <div class="p-2 col-md-3">
-            <img src="/pictures/ProductsPerMinute.jpg">
+            <img src="/pictures/ProductsPerMinute.png">
             <label id='ActualMachineSpeed'></label>
           </div>
         </div>
@@ -130,7 +130,7 @@
       <div class="card-body text-center">
         <label>Maintainence Meter</label><br>
         <div class="progress mx-auto" style="width:50%; height:80%">
-          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped bg-success w-100 position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="30000"></div>
+          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped w-100 position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="30000"></div>
         </div>
       </div>
     </div>
