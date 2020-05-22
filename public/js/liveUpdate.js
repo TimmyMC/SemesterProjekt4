@@ -16,12 +16,11 @@ function updateProductionData() {
         dataType: 'JSON',
         type: 'GET',
         success: function (result) {
-            //console.log(result);
+            // console.log(result);
             document.getElementById('AcceptableProducts').innerHTML = (result['ProducedProducts']) - (result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
             document.getElementById('BatchID').innerHTML = result['CurrentBatchID'];
             document.getElementById('BatchSize').innerHTML = result['BatchSize'];
-            document.getElementById('CurrentState').innerHTML = result['CurrentState'];
             document.getElementById('DefectProducts').innerHTML = result['DefectProducts'];
             document.getElementById('ProducedProducts').innerHTML = result['ProducedProducts'];
             document.getElementById('Humidity').innerHTML = result['Humidity'];
@@ -39,7 +38,18 @@ function updateProductionData() {
             document.getElementById('Malt').style.width = result['Malt'] / 35000 * 100 + '%';
             document.getElementById('Wheat').style.width = result['Wheat'] / 35000 * 100 + '%';
             document.getElementById('Yeast').style.width = result['Yeast'] / 35000 * 100 + '%';
-            document.getElementById('MaintainenceMeter').style.width = result['MaintainenceMeter'] / 35000 * 100 + '%';
+            document.getElementById('MaintainenceMeter').style.height = result['MaintainenceMeter'] / 35000 * 100 + '%';
+
+            var currentState = result['CurrentState'].replace('_', ' ');
+            document.getElementById('CurrentState').innerHTML = currentState;
+
+            if (currentState == "Execute state") {
+                document.getElementById('produce').disabled = true;
+                document.getElementById('stop').disabled = false;
+            } else {
+                document.getElementById('stop').disabled = true;
+                document.getElementById('produce').disabled = false;
+            }
         }
     });
 }
@@ -53,6 +63,7 @@ function updateBatchReport() {
         }
     });
 }
+
 function updateLogs() {
     $.ajax({
         url: "/ProductionData/logUpdate",

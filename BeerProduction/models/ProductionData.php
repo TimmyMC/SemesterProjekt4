@@ -8,7 +8,7 @@ class ProductionData
     {
         $api_url = 'http://localhost:8001/data';
         $json_data = file_get_contents($api_url);
-        $production_data = json_decode($json_data);
+        $production_data = json_decode($json_data, true);
 
         return $production_data;
     }

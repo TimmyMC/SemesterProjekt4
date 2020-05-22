@@ -17,9 +17,9 @@ class BatchReport extends Database
 
     public function updateBatchReportToDB($data)
     {
-        $Batch_id = $data->CurrentBatchID;
-        $Produced_products = $data->ProducedProducts;
-        $Defect_products = $data->DefectProducts;
+        $Batch_id = $data['CurrentBatchID'];
+        $Produced_products = $data['ProducedProducts'];
+        $Defect_products = $data['DefectProducts'];
 
         $sql = "UPDATE Batch_reports
                 SET Produced_products = :Produced_products,
@@ -78,9 +78,9 @@ class BatchReport extends Database
 
     public function insertEnvironmentalLog($data)
     {
-        $humidity = $data->Humidity;
-        $temperature = $data->Temperature;
-        $vibration = $data->Vibration;
+        $humidity = $data['Humidity'];
+        $temperature = $data['Temperature'];
+        $vibration = $data['Vibration'];
 
         $sql = "INSERT INTO Environmental_log
                 (Batch_id, Temperature, Humidity, vibration, log_time)
@@ -99,7 +99,7 @@ class BatchReport extends Database
 
     public function updateStateLog($data)
     {
-        $state = $this->findState($data->CurrentState);
+        $state = $this->findState($data['CurrentState']);
 
         $sql = "UPDATE State_log
         SET $state = $state + :interval
@@ -114,7 +114,7 @@ class BatchReport extends Database
         return;
     }
 
-    private function findState($state)
+    public function findState($state)
     {
         switch ($state) {
             case 0:

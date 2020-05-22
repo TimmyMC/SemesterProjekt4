@@ -1,11 +1,33 @@
 console.log("EEF");
 
-$('#startProductionForm').submit(function (e) {
+$('#produce').click(function (e) {
     e.preventDefault();
     $.ajax({
         url: '/production/produceBatch',
-        type: 'post',
+        type: 'POST',
         data: $('#startProductionForm').serialize(),
+        success: function (result) {
+            // console.log(result)
+        }
+    });
+});
+
+$('#stop').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url: '/production/stopBatch',
+        type: 'GET',
+        success: function (result) {
+            // console.log(result)
+        }
+    });
+});
+
+$('#abort').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        url: '/production/abortBatch',
+        type: 'GET',
         success: function (result) {
             // console.log(result)
         }

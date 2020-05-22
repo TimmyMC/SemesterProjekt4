@@ -37,8 +37,10 @@ class ProductionController extends Controller
 
     public function getProductionData()
     {
-        $_SESSION['productionData'] = $this->model('ProductionData')->getProductionData();
-        echo json_encode($_SESSION['productionData']);
+        $guiProductionData = $this->model('ProductionData')->getProductionData();
+        $_SESSION['productionData'] = $guiProductionData;
+        $guiProductionData['CurrentState'] = $this->model('BatchReport')->findState($guiProductionData['CurrentState']);
+        echo json_encode($guiProductionData);
     }
 
     public function logUpdate()
@@ -76,5 +78,15 @@ class ProductionController extends Controller
         if ($this->get()) {
             echo $this->model('EstimateError')->estimateErrorFunction($productType, $machineSpeed);
         }
+    }
+
+    public function stopBatch()
+    {
+        $this->model('BatchProductionModel')->stopBatch();
+    }
+
+    public function abortBatch()
+    {
+        $this->model('BatchProductionModel')->abortBatch();
     }
 }

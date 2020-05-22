@@ -31,7 +31,14 @@ class BatchProductionModel
         $response = curl_exec($curl);
 
         curl_close($curl);
-
         echo $response . PHP_EOL;
+    }
+
+    public function stopBatch()
+    {
+    }
+
+    public function abortBatch()
+    {
     }
 }
