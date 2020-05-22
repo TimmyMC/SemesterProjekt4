@@ -8,23 +8,23 @@ class ProductionController extends Controller
 
     public function index()
     {
-        $productionData = $this->model('ProductionData')->getProductionData();
-        $viewbag['AcceptableProducts'] = $productionData->ProducedProducts - $productionData->DefectProducts;
-        $viewbag['ActualMachineSpeed'] = $productionData->ActualMachineSpeed;
-        $viewbag['Barley'] = $productionData->Barley;
-        $viewbag['BatchID'] = $productionData->CurrentBatchID;
-        $viewbag['BatchSize'] = $productionData->BatchSize;
-        $viewbag['CurrentState'] = $productionData->CurrentState;
-        $viewbag['DefectProducts'] = $productionData->DefectProducts;
-        $viewbag['Hops'] = $productionData->Hops;
-        $viewbag['Humidity'] = $productionData->Humidity;
-        $viewbag['MaintainenceMeter'] = $productionData->MaintainenceMeter;
-        $viewbag['Malt'] = $productionData->Malt;
-        $viewbag['ProducedProducts'] = $productionData->ProducedProducts;
-        $viewbag['Temperature'] = $productionData->Temperature;
-        $viewbag['Vibration'] = $productionData->Vibration;
-        $viewbag['Wheat'] = $productionData->Wheat;
-        $viewbag['Yeast'] = $productionData->Yeast;
+        // $productionData = $this->model('ProductionData')->getProductionData();
+        // $viewbag['AcceptableProducts'] = $productionData->ProducedProducts - $productionData->DefectProducts;
+        // $viewbag['ActualMachineSpeed'] = $productionData->ActualMachineSpeed;
+        // $viewbag['Barley'] = $productionData->Barley;
+        // $viewbag['BatchID'] = $productionData->CurrentBatchID;
+        // $viewbag['BatchSize'] = $productionData->BatchSize;
+        // $viewbag['CurrentState'] = $productionData->CurrentState;
+        // $viewbag['DefectProducts'] = $productionData->DefectProducts;
+        // $viewbag['Hops'] = $productionData->Hops;
+        // $viewbag['Humidity'] = $productionData->Humidity;
+        // $viewbag['MaintainenceMeter'] = $productionData->MaintainenceMeter;
+        // $viewbag['Malt'] = $productionData->Malt;
+        // $viewbag['ProducedProducts'] = $productionData->ProducedProducts;
+        // $viewbag['Temperature'] = $productionData->Temperature;
+        // $viewbag['Vibration'] = $productionData->Vibration;
+        // $viewbag['Wheat'] = $productionData->Wheat;
+        // $viewbag['Yeast'] = $productionData->Yeast;
 
         //initial page data
         $productType = 0; //pilsner
@@ -60,7 +60,7 @@ class ProductionController extends Controller
             $parameters['batchID'] = $latestBatchID;
             $this->model('BatchProductionModel')->produceBatch($parameters);
 
-            return $latestBatchID;
+            echo $latestBatchID;
         }
     }
 

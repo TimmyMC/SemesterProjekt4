@@ -1,13 +1,13 @@
 console.log("liveUpdate");
 
-var update = setInterval(updateData, 500);
+var update = setInterval(updateData, 500);  //TODO consider 1 sec
+var update = setInterval(updateLogs, 1000);
+var update = setInterval(updateBatchReport, 5000);
 
 function updateData() {
     if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") {  //don't update on batchReport pages.
         updateProductionData();
     }
-    updateLogs();
-    updateProductionDataToDB();
 }
 
 function updateProductionData() {
@@ -44,7 +44,7 @@ function updateProductionData() {
     });
 }
 
-function updateProductionDataToDB() {
+function updateBatchReport() {
     $.ajax({
         url: "/BatchReport/update",
         type: 'GET',
@@ -56,11 +56,9 @@ function updateProductionDataToDB() {
 function updateLogs() {
     $.ajax({
         url: "/ProductionData/logUpdate",
-        type: 'POST',
+        type: 'GET',
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         }
     });
 }
-
-

@@ -2,6 +2,8 @@
 
 class BatchReport extends Database
 {
+    private $environmentalInterval = 1;
+
     public function getBatchReportFromAPI()
     {
         $api_url = 'http://localhost:8001/batchReport';
@@ -19,8 +21,6 @@ class BatchReport extends Database
         $Produced_products = $data->ProducedProducts;
         $Defect_products = $data->DefectProducts;
 
-
-
         $sql = "UPDATE Batch_reports
                 SET Produced_products = :Produced_products,
                 Defect_products = :Defect_products
@@ -28,12 +28,10 @@ class BatchReport extends Database
 
         $stmt = $this->conn->prepare($sql);
 
-        //Bind our variables.
         $stmt->bindValue(':Batch_id', $Batch_id);
         $stmt->bindValue(':Produced_products', $Produced_products);
         $stmt->bindValue(':Defect_products', $Defect_products);
 
-        //Execute the statement and insert the new user account.
         $stmt->execute();
         return;
     }
@@ -50,7 +48,7 @@ class BatchReport extends Database
         $stmt->execute();
         return;
     }
-    
+
     public function saveBatchReportToDB($data)
     {
         $Product_type = $data['batchProductType'];
@@ -62,7 +60,6 @@ class BatchReport extends Database
                 (Product_type, Batch_size, Produced_products, Defect_products, Production_speed, start_time)
                 SELECT
                 :Product_type, :Batch_size, :Produced_products, :Defect_products, :Production_speed, now();";
-
 
         $stmt = $this->conn->prepare($sql);
 
@@ -105,12 +102,13 @@ class BatchReport extends Database
         $state = $this->findState($data->CurrentState);
 
         $sql = "UPDATE State_log
-        SET $state = $state + 0.5
+        SET $state = $state + :interval
         WHERE Batch_id = (SELECT MAX(Batch_id) FROM Batch_reports);";
 
         $stmt = $this->conn->prepare($sql);
 
-        //$stmt->bindValue(':currentState', $state);
+        // $stmt->bindValue(':state', $state);
+        $stmt->bindValue(':interval', $this->environmentalInterval);
 
         $stmt->execute();
         return;
@@ -126,7 +124,7 @@ class BatchReport extends Database
             case 2:
                 return "Stopped_state";
             case 3:
-                return "Startint_state";
+                return "Starting_state";
             case 4:
                 return "Idle_state";
             case 5:

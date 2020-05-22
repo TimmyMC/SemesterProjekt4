@@ -7,7 +7,7 @@ $('#startProductionForm').submit(function (e) {
         type: 'post',
         data: $('#startProductionForm').serialize(),
         success: function (result) {
-            console.log(result)
+            // console.log(result)
         }
     });
 });
