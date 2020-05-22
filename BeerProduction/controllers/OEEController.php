@@ -6,6 +6,7 @@ class OEEController extends Controller
     public function __construct()
     {
     }
+    
     public function index()
     {
         //$productionData = $this->model('ProductionData')->getProductionData();

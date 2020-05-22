@@ -32,12 +32,7 @@ class ProductionController extends Controller
         $viewbag['estimatedError'] = $this->model('EstimateError')->estimateErrorFunction($productType, $viewbag['machineSpeed']);
         $viewbag['maxSpeed'] = 600;
 
-
         $this->view('home/production', $viewbag);
-
-        // $this->view('BatchProduction/BatchProductionView');
-
-        // $this->view('EstimateError/EstimateError', $viewbag);
     }
 
     public function getProductionData()
@@ -62,12 +57,9 @@ class ProductionController extends Controller
             );
 
             $latestBatchID = $this->model('BatchReport')->saveBatchReportToDB($parameters);
-            
             $parameters['batchID'] = $latestBatchID;
-
             $this->model('BatchProductionModel')->produceBatch($parameters);
-            
-            
+
             return $latestBatchID;
         }
     }

@@ -12,7 +12,7 @@ class BatchProductionModel
 
     public function produceBatch($parameters)
     {
-        $url = 'http://localhost:8001/BatchParameters'; 
+        $url = 'http://localhost:8001/BatchParameters';
         $curl = curl_init($url);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

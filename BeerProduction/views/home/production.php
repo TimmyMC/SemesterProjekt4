@@ -28,8 +28,7 @@
 
 Current State <label id='CurrentState'></label>
 
-
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-3">
     <img src="/pictures/Temperature.jpg">
     <label id='Temperature'></label>
@@ -73,6 +72,7 @@ Current State <label id='CurrentState'></label>
     <label id='ActualMachineSpeed'></label>
   </div>
 </div>
+
 
 <label>Barley</label><br>
 <div class="progress">

@@ -21,14 +21,14 @@ class OEE extends Database
     public function getOEEData($currentBatchIDData)
     {
         $currentBatchID = $currentBatchIDData;
-        $this->dataPilsner=$this->calculateTotalOEE($this->getOEEDatafromDB(0), 600, $currentBatchID);
-        $this->dataWheat=$this->calculateTotalOEE($this->getOEEDatafromDB(1), 300, $currentBatchID);
-        $this->dataIpa=$this->calculateTotalOEE($this->getOEEDatafromDB(2), 150, $currentBatchID);
-        $this->dataStout=$this->calculateTotalOEE($this->getOEEDatafromDB(3), 200, $currentBatchID);
-        $this->dataAle=$this->calculateTotalOEE($this->getOEEDatafromDB(4), 100, $currentBatchID);
-        $this->dataAlcoholFree=$this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
-        
-        $OEEData= array(
+        $this->dataPilsner = $this->calculateTotalOEE($this->getOEEDatafromDB(0), 600, $currentBatchID);
+        $this->dataWheat = $this->calculateTotalOEE($this->getOEEDatafromDB(1), 300, $currentBatchID);
+        $this->dataIpa = $this->calculateTotalOEE($this->getOEEDatafromDB(2), 150, $currentBatchID);
+        $this->dataStout = $this->calculateTotalOEE($this->getOEEDatafromDB(3), 200, $currentBatchID);
+        $this->dataAle = $this->calculateTotalOEE($this->getOEEDatafromDB(4), 100, $currentBatchID);
+        $this->dataAlcoholFree = $this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
+
+        $OEEData = array(
             'Pilsner' => ($this->dataPilsner) * 100,
             'Wheat' => ($this->dataWheat) * 100,
             'Ipa' => ($this->dataIpa) * 100,
@@ -36,11 +36,11 @@ class OEE extends Database
             'Ale' => ($this->dataAle) * 100,
             'AlcoholFree' => ($this->dataAlcoholFree) * 100
         );
-       
+
         return $OEEData;
     }
 
-    
+
 
     private function getOEEDatafromDB($productType)
     {
@@ -54,24 +54,24 @@ class OEE extends Database
         //Execute the statement.
         $stmt->execute();
 
-        if ($stmt->rowcount()> 0) {
+        if ($stmt->rowcount() > 0) {
             while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $result = array();
-                $result[]= array(
-                'batch_id'=>$data['batch_id'],
-                'batch_size' => $data['batch_size'],
-                'produced_products'=>$data['produced_products'],
-                'defect_products'=>$data['defect_products'],
-                'production_speed'=>$data['production_speed']
-            );
+                $result[] = array(
+                    'batch_id' => $data['batch_id'],
+                    'batch_size' => $data['batch_size'],
+                    'produced_products' => $data['produced_products'],
+                    'defect_products' => $data['defect_products'],
+                    'production_speed' => $data['production_speed']
+                );
             }
         }
-        $result[]= array(
-            'batch_id'=>0,
-            'batch_size' =>0,
-            'produced_products'=>0,
-            'defect_products'=>0,
-            'production_speed'=>0
+        $result[] = array(
+            'batch_id' => 0,
+            'batch_size' => 0,
+            'produced_products' => 0,
+            'defect_products' => 0,
+            'production_speed' => 0
         );
 
         return $result;
@@ -91,11 +91,11 @@ class OEE extends Database
         //Execute the statement.
         $stmt->execute();
 
-        $result=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[]= array(
-                'batch_id'=>$data['batch_id'],
+            $result[] = array(
+                'batch_id' => $data['batch_id'],
                 'deactivated_state' => $data['deactivated_state'],
                 'clearing_state' => $data['clearing_state'],
                 'stopped_state' => $data['stopped_state'],
@@ -113,10 +113,8 @@ class OEE extends Database
                 'completed_state' => $data['completed_state'],
                 'deactive_state' => $data['deactive_state'],
                 'activating_state' => $data['activating_state']
-              
             );
         }
-
         return $result;
     }
 
@@ -127,43 +125,36 @@ class OEE extends Database
         $OEE = 0;
         foreach ($data as $batchReport) {
             $OEE;
-            $acceptableProducts =$batchReport['produced_products'];
-            
+            $acceptableProducts = $batchReport['produced_products'];
+
             if ($acceptableProducts == 0) {
                 $OEE = 0;
                 $unusedBatchReportsCount++;
             }
             //key batch id is equal to current batch ID
-            elseif ($batchReport['batch_id']==$currentBatchID) {
+            elseif ($batchReport['batch_id'] == $currentBatchID) {
                 $OEE = 0;
                 $unusedBatchReportsCount++;
             } else {
-                
-                
-                
                 /////////////////////////////////////////////////////////////////////
                 $batchID = $batchReport['batch_id'];
                 $stateLogData = $this->getStateLogData($batchID);
-                
+
                 foreach ($stateLogData as $stateLog) {
                     //calculate runtime from start time and end time NOT AVAILABLE
-                    $plannedProductionTime = array_sum($stateLog)-$batchReport['batch_id'];
-                
+                    $plannedProductionTime = array_sum($stateLog) - $batchReport['batch_id'];
+
                     //calculate downtime from statelogs NOT AVAILABLE
-                    $downtime = $plannedProductionTime-$stateLog['execute_state'];
+                    $downtime = $plannedProductionTime - $stateLog['execute_state'];
                     $runtime = $stateLog['execute_state'];
                     /////////////////////////////////////////////////////////////////////
 
-
-
-
-
                     //Calcualate Quality
-                    $quality = $this->CalculateQuality($batchReport['produced_products'], $batchReport[ 'defect_products']);
+                    $quality = $this->CalculateQuality($batchReport['produced_products'], $batchReport['defect_products']);
                     //Calculate Availability
                     $availability = $this->CalculateAvailability($plannedProductionTime, $downtime);
                     //Calculate Performance
-                    $totalProducts=$batchReport['produced_products'];
+                    $totalProducts = $batchReport['produced_products'];
                     $performance = $this->CalculatePerformance($MaxProductionSpeed, $totalProducts, $runtime);
 
                     //Finally Calculate OEE
@@ -172,25 +163,16 @@ class OEE extends Database
             }
             array_push($OEEList, $OEE);
         }
-        
-        
-        
-        if (count($OEEList)==0) {
+
+        if (count($OEEList) == 0) {
             $averageOEE = 0;
-        } elseif ((count($OEEList)-$unusedBatchReportsCount)==0) {
+        } elseif ((count($OEEList) - $unusedBatchReportsCount) == 0) {
             $averageOEE = 0;
         } else {
-            $averageOEE = array_sum($OEEList) / (count($OEEList)-$unusedBatchReportsCount);
+            $averageOEE = array_sum($OEEList) / (count($OEEList) - $unusedBatchReportsCount);
         }
         return $averageOEE;
     }
-
-
-
-
-
-
-
 
     private function calculateOEE($quality, $availability, $performance)
     {
@@ -208,14 +190,14 @@ class OEE extends Database
 
     private function calculateAvailability($plannedProductionTime, $downtime)
     {
-        $availability = ($plannedProductionTime - $downtime)/ $plannedProductionTime;
+        $availability = ($plannedProductionTime - $downtime) / $plannedProductionTime;
 
         return $availability;
     }
 
     private function calculatePerformance($MaxProductionSpeed, $totalProducts, $runtime)
     {
-        $IdealCycleTime =  60/$MaxProductionSpeed;
+        $IdealCycleTime =  60 / $MaxProductionSpeed;
 
         $performance = ($IdealCycleTime * $totalProducts) / $runtime;
 

@@ -3,7 +3,7 @@ console.log("liveUpdate");
 var update = setInterval(updateData, 500);
 
 function updateData() {
-    if ($(location).attr('pathname').substring(0,12) !== "/batchReport") {  //don't update on batchReport pages.
+    if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") {  //don't update on batchReport pages.
         updateProductionData();
     }
     updateLogs();
@@ -17,7 +17,7 @@ function updateProductionData() {
         type: 'GET',
         success: function (result) {
             //console.log(result);
-            document.getElementById('AcceptableProducts').innerHTML =(result['ProducedProducts'])-(result['DefectProducts']);
+            document.getElementById('AcceptableProducts').innerHTML = (result['ProducedProducts']) - (result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
             document.getElementById('BatchID').innerHTML = result['CurrentBatchID'];
             document.getElementById('BatchSize').innerHTML = result['BatchSize'];
@@ -53,7 +53,7 @@ function updateProductionDataToDB() {
         }
     });
 }
-function updateLogs(){
+function updateLogs() {
     $.ajax({
         url: "/ProductionData/logUpdate",
         type: 'POST',

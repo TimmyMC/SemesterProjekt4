@@ -7,6 +7,7 @@ class BatchReportController extends Controller
     {
         $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
     }
+
     public function index()
     {
         $viewbag['BatchID'] = $this->batchReportData->BatchID;
@@ -25,6 +26,7 @@ class BatchReportController extends Controller
         $this->batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
         $this->model('BatchReport')->saveBatchReportToDB($this->batchReportData);
     }
+
     public function update()
     {
         $this->batchReportData = $this->model('ProductionData')->getProductionData();

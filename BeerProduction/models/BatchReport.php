@@ -19,7 +19,7 @@ class BatchReport extends Database
         $Produced_products = $data->ProducedProducts;
         $Defect_products = $data->DefectProducts;
 
- 
+
 
         $sql = "UPDATE Batch_reports
                 SET Produced_products = :Produced_products,
@@ -40,7 +40,7 @@ class BatchReport extends Database
 
     private function createStateLog($id)
     {
-        $sql="INSERT INTO state_log
+        $sql = "INSERT INTO state_log
         (Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Abort_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)
         VALUES
         (:Batch_id,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
@@ -50,11 +50,12 @@ class BatchReport extends Database
         $stmt->execute();
         return;
     }
+    
     public function saveBatchReportToDB($data)
     {
         $Product_type = $data['batchProductType'];
         $Batch_size = $data['batchSize'];
-        $Produced_products =0;
+        $Produced_products = 0;
         $Defect_products = 0;
         $Production_speed = $data['batchSpeed'];
         $sql = "INSERT INTO Batch_reports
@@ -153,7 +154,7 @@ class BatchReport extends Database
             case 19:
                 return "Activating_state";
             default:
-            break;
+                break;
         }
     }
 }

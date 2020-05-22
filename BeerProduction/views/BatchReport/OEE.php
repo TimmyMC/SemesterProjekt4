@@ -6,17 +6,17 @@
 
 //    print_r($viewbag);
 
-    echo"<tr>";
-    echo"<td>$viewbag[Pilsner]</td><br>";
-    echo"<td>$viewbag[Wheat]</td><br>";
-    echo"<td>$viewbag[Ipa]</td><br>";
-    echo"<td>$viewbag[Stout]</td><br>";
-    echo"<td>$viewbag[Ale]</td><br>";
-    echo"<td>$viewbag[AlcoholFree]</td><br>";
-    echo"</tr>";
+echo "<tr>";
+echo "<td>$viewbag[Pilsner]</td><br>";
+echo "<td>$viewbag[Wheat]</td><br>";
+echo "<td>$viewbag[Ipa]</td><br>";
+echo "<td>$viewbag[Stout]</td><br>";
+echo "<td>$viewbag[Ale]</td><br>";
+echo "<td>$viewbag[AlcoholFree]</td><br>";
+echo "</tr>";
 
 
-echo"</table>";
+echo "</table>";
 
 
 ?>
