@@ -4,15 +4,15 @@ class BatchReport extends Database
 {
     private $environmentalInterval = 1;
 
-    public function getBatchReportFromAPI()
+    public function getBatchReportListFromDB()
     {
-        $api_url = 'http://localhost:8001/batchReport';
+        $sql = "SELECT * FROM batch_reports order by batch_id DESC limit 10;";
 
-        $json_data = file_get_contents($api_url);
+        $stmt = $this->conn->prepare($sql);
 
-        $batchReport_data = json_decode($json_data);
-
-        return $batchReport_data;
+        $stmt->execute();
+        $result = $stmt->fetchall(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public function updateBatchReportToDB($data)
@@ -154,5 +154,31 @@ class BatchReport extends Database
             default:
                 break;
         }
+    }
+
+    public function getStateLogFromDB($batchID){
+        $sql = "SELECT * FROM state_log WHERE batch_id = :batchID;";
+
+        
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':batchID', $batchID);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getEnvironmentalLogFromDB($batchID){
+        $sql = "SELECT AVG(temperature) AS temperature, AVG(humidity) AS humidity, AVG(vibration) AS vibration
+        FROM environmental_log
+        WHERE batch_id = :batchID;";
+
+        
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':batchID', $batchID);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

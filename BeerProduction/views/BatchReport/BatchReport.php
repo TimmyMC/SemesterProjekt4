@@ -1,15 +1,14 @@
 <?php include '../BeerProduction/views/partials/menu.php'; ?>
 
-BatchID, <?= $viewbag['BatchID'] ?></br>
-BatchSize, <?= $viewbag['BatchSize'] ?></br>
-ProductType, <?= $viewbag['ProductType'] ?></br>
-Actual MachineSpeed, <?= $viewbag['ActualMachineSpeed'] ?></br>
-ProducedProducts, <?= $viewbag['ProducedProducts'] ?></br>
-Acceptable Products, <?= $viewbag['AcceptableProducts'] ?></br>
-DefectProducts, <?= $viewbag['DefectProducts'] ?></br>
+<div class="row">
+  <div class="p-2 col-md-12">
+    <ul class="list-group" id="batchReportList">
 
-<form action="batchReport/save" method="POST">
-    <input name="saveBatchReport" type="submit" value="Submit"></input>
-</form>
+    </ul>
+  </div>
+
+</div>
+
+
 
 <?php include '../BeerProduction/views/partials/footer.php'; ?>
