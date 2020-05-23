@@ -39,8 +39,8 @@ function updateProductionData() {
             document.getElementById('Wheat').style.width = result['Wheat'] / 35000 * 100 + '%';
             document.getElementById('Yeast').style.width = result['Yeast'] / 35000 * 100 + '%';
 
-            // maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
-            maintainencePercent = 85;
+            maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
+            // maintainencePercent = 63;
             document.getElementById('MaintainenceMeter').style.height = maintainencePercent + '%';
 
             if (maintainencePercent >= 85) {
