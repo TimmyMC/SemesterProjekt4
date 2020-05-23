@@ -1,11 +1,11 @@
 console.log("liveUpdate");
 
-var update = setInterval(updateData, 500);  //TODO consider 1 sec
+var update = setInterval(updateData, 500); //TODO consider 1 sec
 var update = setInterval(updateLogs, 1000);
 var update = setInterval(updateBatchReport, 5000);
 
 function updateData() {
-    if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") {  //don't update on batchReport pages.
+    if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") { //don't update on batchReport pages.
         updateProductionData();
     }
 }
@@ -15,7 +15,7 @@ function updateProductionData() {
         url: "/production/getProductionData",
         dataType: 'JSON',
         type: 'GET',
-        success: function (result) {
+        success: function(result) {
             // console.log(result);
             document.getElementById('AcceptableProducts').innerHTML = (result['ProducedProducts']) - (result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
@@ -39,8 +39,8 @@ function updateProductionData() {
             document.getElementById('Wheat').style.width = result['Wheat'] / 35000 * 100 + '%';
             document.getElementById('Yeast').style.width = result['Yeast'] / 35000 * 100 + '%';
 
-            maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
-            // maintainencePercent = 59;
+            // maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
+            maintainencePercent = 85;
             document.getElementById('MaintainenceMeter').style.height = maintainencePercent + '%';
 
             if (maintainencePercent >= 85) {
@@ -75,7 +75,7 @@ function updateBatchReport() {
     $.ajax({
         url: "/BatchReport/update",
         type: 'GET',
-        success: function (result) {
+        success: function(result) {
             // console.log(result);
         }
     });
@@ -85,7 +85,7 @@ function updateLogs() {
     $.ajax({
         url: "/ProductionData/logUpdate",
         type: 'GET',
-        success: function (result) {
+        success: function(result) {
             // console.log(result);
         }
     });

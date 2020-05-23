@@ -129,8 +129,8 @@
     <div class="card h-100">
       <div class="card-body text-center">
         <label>Maintainence Meter</label><br>
-        <div class="progress mx-auto" style="width:50%; height:80%">
-          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped w-100 position-relative" role="progressbar" aria-valuemin="0" aria-valuemax="30000"></div>
+        <div class="progress mx-auto position-relative" style="width:50%; height:80%">
+          <div id="MaintainenceMeter" class="progress-bar progress-bar-striped w-100 position-absolute" role="progressbar" aria-valuemin="0" aria-valuemax="30000" style="bottom:0%"></div>
         </div>
       </div>
     </div>
