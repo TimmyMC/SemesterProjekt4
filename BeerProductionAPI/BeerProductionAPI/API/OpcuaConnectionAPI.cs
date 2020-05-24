@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BeerProductionAPI.API.ConnectionModule;
 using BeerProductionAPI.API.JsonObjectRepresentations;
 using BeerProductionAPI.API.MachineModule;
+using Opc.UaFx;
 
 namespace BeerProductionAPI.API
 {
@@ -91,6 +92,10 @@ namespace BeerProductionAPI.API
                 {
                     remakeOPCClient();
                 }
+                catch (OpcException ex)
+                {
+                    remakeOPCClient();
+                }
             }
             return null;
 
@@ -120,6 +125,10 @@ namespace BeerProductionAPI.API
                     retryConnection();
                 }
                 catch (LicenseException ex)
+                {
+                    remakeOPCClient();
+                }
+                catch (OpcException ex)
                 {
                     remakeOPCClient();
                 }
@@ -163,6 +172,10 @@ namespace BeerProductionAPI.API
                 {
                     remakeOPCClient();
                 }
+                catch (OpcException ex)
+                {
+                    remakeOPCClient();
+                }
             }
 
         }
@@ -197,6 +210,10 @@ namespace BeerProductionAPI.API
 
                 }
                 catch (LicenseException ex)
+                {
+                    remakeOPCClient();
+                }
+                catch (OpcException ex)
                 {
                     remakeOPCClient();
                 }
@@ -277,6 +294,10 @@ namespace BeerProductionAPI.API
                     retryConnection();
                 }
                 catch (LicenseException ex)
+                {
+                    remakeOPCClient();
+                }
+                catch (OpcException ex)
                 {
                     remakeOPCClient();
                 }
