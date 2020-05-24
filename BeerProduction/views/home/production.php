@@ -137,6 +137,56 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="p-2 col-md-12">
+    <div class="card h-100">
+      <div class="card-body">
+        <label>Overall Equipment Effectiveness</label><br>
+        <div class="row">
+          <div class="p-2 col-md-2 border">
+            <label>Pilsner</label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label>Wheat</label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label>IPA</label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label>Stout</label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label>Ale</label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label>Alcohol Free</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="p-2 col-md-2 border">
+            <label id="pilsnerOEE"></label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label id="wheatOEE"></label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label id="IPAOEE"></label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label id="stoutOEE"></label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label id="aleOEE"></label>
+          </div>
+          <div class="p-2 col-md-2 border">
+            <label id="alcoholFreeOEE"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <?php include '../BeerProduction/views/partials/footer.php'; ?>

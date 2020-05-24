@@ -15,7 +15,7 @@ function updateProductionData() {
         url: "/production/getProductionData",
         dataType: 'JSON',
         type: 'GET',
-        success: function(result) {
+        success: function (result) {
             // console.log(result);
             document.getElementById('AcceptableProducts').innerHTML = (result['ProducedProducts']) - (result['DefectProducts']);
             document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
@@ -75,8 +75,8 @@ function updateBatchReport() {
     $.ajax({
         url: "/BatchReport/update",
         type: 'GET',
-        success: function(result) {
-            // console.log(result);
+        success: function (result) {
+            console.log(result);
         }
     });
 }
@@ -85,7 +85,7 @@ function updateLogs() {
     $.ajax({
         url: "/ProductionData/logUpdate",
         type: 'GET',
-        success: function(result) {
+        success: function (result) {
             // console.log(result);
         }
     });

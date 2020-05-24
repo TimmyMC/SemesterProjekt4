@@ -16,8 +16,7 @@ class BatchReportController extends Controller
     public function update()
     {
         $batchReportData = $this->model('ProductionData')->getProductionData();
-        $this->model('BatchReport')->updateBatchReportToDB($this->batchReportData);
-        echo 'batch report updated';
+        $this->model('BatchReport')->updateBatchReportToDB($batchReportData);
     }
 
     public function getBatchReports()

@@ -2,49 +2,31 @@
 
 class OEE extends Database
 {
-    private $currentBatchID;
-
-    private $batchSize;
-    private $acceptableProducts;
-    private $defectProducts;
-    private $productionSpeed;
-    private $totalProducts;
-    private $runtime;
-
-    private $dataPilsner;
-    private $dataWheat;
-    private $dataIpa;
-    private $dataStout;
-    private $dataAle;
-    private $dataAlcoholFree;
-
     public function getOEEData($currentBatchIDData)
     {
         $currentBatchID = $currentBatchIDData;
-        $this->dataPilsner = $this->calculateTotalOEE($this->getOEEDatafromDB(0), 600, $currentBatchID);
-        $this->dataWheat = $this->calculateTotalOEE($this->getOEEDatafromDB(1), 300, $currentBatchID);
-        $this->dataIpa = $this->calculateTotalOEE($this->getOEEDatafromDB(2), 150, $currentBatchID);
-        $this->dataStout = $this->calculateTotalOEE($this->getOEEDatafromDB(3), 200, $currentBatchID);
-        $this->dataAle = $this->calculateTotalOEE($this->getOEEDatafromDB(4), 100, $currentBatchID);
-        $this->dataAlcoholFree = $this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
+        $dataPilsner = $this->calculateTotalOEE($this->getOEEDatafromDB(0), 600, $currentBatchID);
+        $dataWheat = $this->calculateTotalOEE($this->getOEEDatafromDB(1), 300, $currentBatchID);
+        $dataIpa = $this->calculateTotalOEE($this->getOEEDatafromDB(2), 150, $currentBatchID);
+        $dataStout = $this->calculateTotalOEE($this->getOEEDatafromDB(3), 200, $currentBatchID);
+        $dataAle = $this->calculateTotalOEE($this->getOEEDatafromDB(4), 100, $currentBatchID);
+        $dataAlcoholFree = $this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
 
         $OEEData = array(
-            'Pilsner' => ($this->dataPilsner) * 100,
-            'Wheat' => ($this->dataWheat) * 100,
-            'Ipa' => ($this->dataIpa) * 100,
-            'Stout' => ($this->dataStout) * 100,
-            'Ale' => ($this->dataAle) * 100,
-            'AlcoholFree' => ($this->dataAlcoholFree) * 100
+            'Pilsner' => ($dataPilsner) * 100,
+            'Wheat' => ($dataWheat) * 100,
+            'Ipa' => ($dataIpa) * 100,
+            'Stout' => ($dataStout) * 100,
+            'Ale' => ($dataAle) * 100,
+            'AlcoholFree' => ($dataAlcoholFree) * 100
         );
 
         return $OEEData;
     }
 
-
-
     private function getOEEDatafromDB($productType)
     {
-        $sql = "SELECT batch_id, batch_size, produced_products, defect_products, production_speed FROM batch_reports WHERE product_type=:product_type;";
+        $sql = "SELECT batch_id, batch_size, produced_products, defect_products, production_speed FROM batch_report WHERE product_type=:product_type;";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -124,7 +106,6 @@ class OEE extends Database
         $unusedBatchReportsCount = 0;
         $OEE = 0;
         foreach ($data as $batchReport) {
-            $OEE;
             $acceptableProducts = $batchReport['produced_products'];
 
             if ($acceptableProducts == 0) {
@@ -136,7 +117,6 @@ class OEE extends Database
                 $OEE = 0;
                 $unusedBatchReportsCount++;
             } else {
-                /////////////////////////////////////////////////////////////////////
                 $batchID = $batchReport['batch_id'];
                 $stateLogData = $this->getStateLogData($batchID);
 
@@ -147,7 +127,6 @@ class OEE extends Database
                     //calculate downtime from statelogs NOT AVAILABLE
                     $downtime = $plannedProductionTime - $stateLog['execute_state'];
                     $runtime = $stateLog['execute_state'];
-                    /////////////////////////////////////////////////////////////////////
 
                     //Calcualate Quality
                     $quality = $this->CalculateQuality($batchReport['produced_products'], $batchReport['defect_products']);

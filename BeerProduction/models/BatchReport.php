@@ -6,7 +6,7 @@ class BatchReport extends Database
 
     public function getBatchReportListFromDB()
     {
-        $sql = "SELECT * FROM batch_reports order by batch_id DESC limit 10;";
+        $sql = "SELECT * FROM batch_report order by batch_id DESC limit 10;";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -21,7 +21,7 @@ class BatchReport extends Database
         $Produced_products = $data['ProducedProducts'];
         $Defect_products = $data['DefectProducts'];
 
-        $sql = "UPDATE Batch_reports
+        $sql = "UPDATE Batch_report
                 SET Produced_products = :Produced_products,
                 Defect_products = :Defect_products
                 WHERE Batch_id = :Batch_id";
@@ -56,7 +56,7 @@ class BatchReport extends Database
         $Produced_products = 0;
         $Defect_products = 0;
         $Production_speed = $data['batchSpeed'];
-        $sql = "INSERT INTO Batch_reports
+        $sql = "INSERT INTO Batch_report
                 (Product_type, Batch_size, Produced_products, Defect_products, Production_speed, start_time)
                 SELECT
                 :Product_type, :Batch_size, :Produced_products, :Defect_products, :Production_speed, now();";
@@ -84,7 +84,7 @@ class BatchReport extends Database
 
         $sql = "INSERT INTO Environmental_log
                 (Batch_id, Temperature, Humidity, vibration, log_time)
-                Values((SELECT MAX(Batch_id) FROM Batch_reports), :Temperature, :Humidity, :Vibration, now());";
+                Values((SELECT MAX(Batch_id) FROM Batch_report), :Temperature, :Humidity, :Vibration, now());";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -103,7 +103,7 @@ class BatchReport extends Database
 
         $sql = "UPDATE State_log
         SET $state = $state + :interval
-        WHERE Batch_id = (SELECT MAX(Batch_id) FROM Batch_reports);";
+        WHERE Batch_id = (SELECT MAX(Batch_id) FROM Batch_report);";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -156,10 +156,11 @@ class BatchReport extends Database
         }
     }
 
-    public function getStateLogFromDB($batchID){
+    public function getStateLogFromDB($batchID)
+    {
         $sql = "SELECT * FROM state_log WHERE batch_id = :batchID;";
 
-        
+
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':batchID', $batchID);
@@ -168,12 +169,13 @@ class BatchReport extends Database
         return $result;
     }
 
-    public function getEnvironmentalLogFromDB($batchID){
+    public function getEnvironmentalLogFromDB($batchID)
+    {
         $sql = "SELECT AVG(temperature) AS temperature, AVG(humidity) AS humidity, AVG(vibration) AS vibration
         FROM environmental_log
         WHERE batch_id = :batchID;";
 
-        
+
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':batchID', $batchID);

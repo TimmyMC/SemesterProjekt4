@@ -1,11 +1,11 @@
-$('document').ready(function(e) {
+$('document').ready(function (e) {
     if ($(location).attr('pathname').substring(0, 12) == "/batchReport") { //only update batchReport page
         $.ajax({
             url: '/BatchReport/getBatchReports',
             type: 'GET',
-            success: function(result) {
+            success: function (result) {
 
-                $.each(JSON.parse(result), function(i, item) {
+                $.each(JSON.parse(result), function (i, item) {
                     var batchitem = document.createElement("button");
                     batchitem.appendChild(
                         document.createTextNode(
@@ -34,54 +34,97 @@ $('document').ready(function(e) {
                     //Call to get state log information
 
                     //Attach to text
-                    //console.log(JSON.parse(stateLog));
-                    var stateLog = function() {
+                    var stateLog = function () {
                         var stateInfo;
                         $.ajax({
                             async: false,
                             url: '/BatchReport/getStateLog/' + encodeURI(item.batch_id),
                             type: 'GET',
-                            success: function(result) {
-                                console.log(result);
+                            success: function (result) {
+                                // console.log(result);
                                 stateInfo = result;
                             }
                         });
-                        return stateInfo;
+                        return JSON.parse(stateInfo);
                     }();
 
-                    console.log(stateLog);
 
 
                     //Call to get environmental log information
                     //Attach to text
-                    var environmentalLog = function() {
+                    var environmentalLog = function () {
                         var environmentalInfo;
                         $.ajax({
                             async: false,
                             url: '/BatchReport/getEnvironmentalLog/' + encodeURI(item.batch_id),
                             type: 'GET',
-                            success: function(result) {
-                                console.log(result);
+                            success: function (result) {
+                                // console.log(result);
                                 environmentalInfo = result;
                             }
                         });
-                        return environmentalInfo;
+                        return JSON.parse(environmentalInfo);
                     }();
 
-                    console.log(stateLog);
+
+                    // information.appendChild(
+                    //     document.createTextNode(
+                    //         "State Log Information:" +
+                    //         "\n" +
+                    //         stateLog +
+                    //         "\n" +
+                    //         "Environmental Log Information:" +
+                    //         "\n" +
+                    //         environmentalLog
+                    //     )
+                    // );
+
+                    var infoRow = document.createElement("div");
+                    infoRow.classList.add("row");
 
 
-                    information.appendChild(
-                        document.createTextNode(
-                            "State Log Information:" +
-                            "\n" +
-                            stateLog +
-                            "\n" +
-                            "Environmental Log Information:" +
-                            "\n" +
-                            environmentalLog
-                        )
-                    );
+                    var stateLogGrid = document.createElement("div");
+                    stateLogGrid.classList.add("col-4", "m-1");
+
+                    var stateLogContent = document.createElement("div");
+                    stateLogContent.classList.add("row", "border", "p-1", "border-dark");
+                    stateLogContent.innerHTML = "State Logs";
+                    stateLogGrid.appendChild(stateLogContent);
+
+                    for (let [key, value] of Object.entries(stateLog)) {
+                        prettyKey = key.charAt(0).toUpperCase() + key.slice(1);
+                        var item = `${prettyKey.replace('_', ' ')}: ${value}`;
+                        var stateLogContent = document.createElement("div");
+                        stateLogContent.classList.add("row", "border", "p-1");
+
+                        stateLogContent.innerHTML = item;
+                        stateLogGrid.appendChild(stateLogContent);
+                    }
+
+
+
+                    var environmentalLogGrid = document.createElement("div");
+                    environmentalLogGrid.classList.add("col-4", "m-1");
+
+                    var environmentalLogContent = document.createElement("div");
+                    environmentalLogContent.classList.add("row", "border", "p-1", "border-dark");
+                    environmentalLogContent.innerHTML = "Environmental Logs";
+                    environmentalLogGrid.appendChild(environmentalLogContent);
+
+                    for (let [key, value] of Object.entries(environmentalLog)) {
+                        prettyKey = key.charAt(0).toUpperCase() + key.slice(1);
+                        var item = `${prettyKey}: ${value}`;
+                        var environmentalLogContent = document.createElement("div");
+                        environmentalLogContent.classList.add("row", "border", "p-1");
+
+                        environmentalLogContent.innerHTML = item;
+                        environmentalLogGrid.appendChild(environmentalLogContent);
+                    }
+
+
+                    infoRow.appendChild(stateLogGrid);
+                    infoRow.appendChild(environmentalLogGrid);
+                    information.appendChild(infoRow);
 
                     var _pre = document.createElement("pre");
                     _pre.appendChild(information);
