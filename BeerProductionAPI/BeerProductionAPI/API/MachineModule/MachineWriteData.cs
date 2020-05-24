@@ -1,7 +1,7 @@
 ﻿using Opc.UaFx.Client;
 using System.Collections.Generic;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.MachineModule
 {
     class MachineWriteData : IMachineWriteData
     {

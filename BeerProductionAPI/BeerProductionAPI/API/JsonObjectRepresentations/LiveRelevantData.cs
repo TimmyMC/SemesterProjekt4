@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.JsonObjectRepresentations
 {
 
     [DataContract(IsReference = false)]

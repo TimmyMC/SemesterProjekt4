@@ -1,7 +1,7 @@
 ﻿using Opc.UaFx.Client;
 using System;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.MachineModule
 {
     interface IMachineReadData
     {
