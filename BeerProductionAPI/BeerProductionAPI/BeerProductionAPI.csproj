@@ -66,16 +66,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BatchParameters.cs" />
-    <Compile Include="BatchReportData.cs" />
+    <Compile Include="API\JsonObjectRepresentations\BatchParameters.cs" />
+    <Compile Include="API\JsonObjectRepresentations\BatchReportData.cs" />
     <Compile Include="IOpcuaConnectionAPI.cs" />
-    <Compile Include="LiveRelevantData.cs" />
-    <Compile Include="PersistenceLayer\ConnectionModule\OPCConnectionManager.cs" />
-    <Compile Include="PersistenceLayer\MachineModule\IMachineReadData.cs" />
-    <Compile Include="PersistenceLayer\MachineModule\IMachineWriteData.cs" />
-    <Compile Include="PersistenceLayer\MachineModule\MachineReadData.cs" />
-    <Compile Include="PersistenceLayer\MachineModule\MachineWriteData.cs" />
-    <Compile Include="PersistenceLayer\OpcuaConnectionAPI.cs" />
+    <Compile Include="API\JsonObjectRepresentations\LiveRelevantData.cs" />
+    <Compile Include="API\ConnectionModule\OPCConnectionManager.cs" />
+    <Compile Include="API\MachineModule\IMachineReadData.cs" />
+    <Compile Include="API\MachineModule\IMachineWriteData.cs" />
+    <Compile Include="API\MachineModule\MachineReadData.cs" />
+    <Compile Include="API\MachineModule\MachineWriteData.cs" />
+    <Compile Include="API\OpcuaConnectionAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

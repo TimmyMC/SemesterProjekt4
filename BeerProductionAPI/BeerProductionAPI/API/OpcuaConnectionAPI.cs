@@ -1,12 +1,14 @@
-﻿using BeerProductionAPI;
-using Opc.UaFx.Client;
+﻿using Opc.UaFx.Client;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using BeerProductionAPI.API.ConnectionModule;
+using BeerProductionAPI.API.JsonObjectRepresentations;
+using BeerProductionAPI.API.MachineModule;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API
 {
     /// <summary>
     /// Implementation of the IPersistenceFacade interface
@@ -79,13 +81,15 @@ namespace BeerProductionAPI
                 catch (NullReferenceException ex)
                 {
                     Console.WriteLine(ex.ToString());
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
                 }
                 catch (InvalidOperationException e)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
                 }
             }
             return null;
@@ -109,13 +113,15 @@ namespace BeerProductionAPI
                 }
                 catch (NullReferenceException ex)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
                 }
                 catch (InvalidOperationException e)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
                 }
             }
             return null;
@@ -137,13 +143,15 @@ namespace BeerProductionAPI
                 }
                 catch (NullReferenceException ex)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
                 }
                 catch (InvalidOperationException e)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
                 }
             }
 
@@ -172,13 +180,15 @@ namespace BeerProductionAPI
                 }
                 catch (NullReferenceException ex)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
                 }
                 catch (InvalidOperationException e)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
                 }
             }
 
@@ -207,12 +217,15 @@ namespace BeerProductionAPI
                 }
                 catch (NullReferenceException ex)
                 {
-                    ValidConnection = false;
-                    ReconnectToMachine();
+                    retryConnection();
                 }
                 catch (InvalidOperationException e)
                 {
 
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
                 }
             }
 
@@ -225,32 +238,6 @@ namespace BeerProductionAPI
             return opcConnection.CheckConnection();
         }
 
-        public bool IdTest(string floatID)
-        {
-            if (ValidConnection)
-            {
-                try
-                {
-                    float virk = 0;
-                    float.TryParse(floatID, out virk);
-                    machineWriteData.WriteNextBatchID(accessPoint, virk);
-                    return true;
-                }
-                catch (NullReferenceException ex)
-                {
-                    ValidConnection = false;
-                    ReconnectToMachine();
-                }
-                catch (InvalidOperationException e)
-                {
-                    ValidConnection = false;
-                    ReconnectToMachine();
-                }
-
-            }
-            return false;
-
-        }
 
         private void ReconnectToMachine()
         {
@@ -272,6 +259,19 @@ namespace BeerProductionAPI
                     }
                 });
             }
+        }
+
+        private void retryConnection()
+        {
+            ValidConnection = false;
+            ReconnectToMachine();
+        }
+
+        private void remakeOPCClient()
+        {
+            opcConnection = new OPCConnectionManager();
+            opcConnection.ConnectToServer(currentMachineName);
+            accessPoint = opcConnection.AccessPoint;
         }
     }
 }

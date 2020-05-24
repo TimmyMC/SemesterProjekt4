@@ -1,7 +1,7 @@
 ﻿using Opc.UaFx;
 using Opc.UaFx.Client;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.ConnectionModule
 {
     class OPCConnectionManager
     {

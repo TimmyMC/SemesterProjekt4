@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.MachineModule
 {
     class MachineReadData : IMachineReadData
     {

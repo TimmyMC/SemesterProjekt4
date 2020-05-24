@@ -1,6 +1,6 @@
 ﻿using Opc.UaFx.Client;
 
-namespace BeerProductionAPI
+namespace BeerProductionAPI.API.MachineModule
 {
     interface IMachineWriteData
     {
