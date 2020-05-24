@@ -128,34 +128,7 @@ namespace BeerProductionAPI.API
 
         }
 
-        public void SendCommand(string command)
-        {
-            if (ValidConnection)
-            {
 
-                try
-                {
-                    int intCommand = 0;
-                    if (int.TryParse(command, out intCommand))
-                    {
-                        machineWriteData.WriteControlCommand(accessPoint, intCommand);
-                    }
-                }
-                catch (NullReferenceException ex)
-                {
-                    retryConnection();
-                }
-                catch (InvalidOperationException e)
-                {
-                    retryConnection();
-                }
-                catch (LicenseException ex)
-                {
-                    remakeOPCClient();
-                }
-            }
-
-        }
 
         public void SetBatchParameters(string productType, string productionSpeed, string batchSize, string batchID)
         {
@@ -231,6 +204,17 @@ namespace BeerProductionAPI.API
 
 
         }
+        public void StopMachine()
+        {
+            int stop = 3;
+            SendCommand(stop);
+        }
+
+        public void AbortMachine()
+        {
+            int abort = 4;
+            SendCommand(abort);
+        }
 
 
         public bool CheckMachineConnection()
@@ -238,6 +222,7 @@ namespace BeerProductionAPI.API
             return opcConnection.CheckConnection();
         }
 
+        //Private methods under this line
 
         private void ReconnectToMachine()
         {
@@ -273,5 +258,32 @@ namespace BeerProductionAPI.API
             opcConnection.ConnectToServer(currentMachineName);
             accessPoint = opcConnection.AccessPoint;
         }
+
+        private void SendCommand(int command)
+        {
+            if (ValidConnection)
+            {
+
+                try
+                {
+                    machineWriteData.WriteControlCommand(accessPoint, command);
+                }
+                catch (NullReferenceException ex)
+                {
+                    retryConnection();
+                }
+                catch (InvalidOperationException e)
+                {
+                    retryConnection();
+                }
+                catch (LicenseException ex)
+                {
+                    remakeOPCClient();
+                }
+            }
+
+        }
+
+
     }
 }

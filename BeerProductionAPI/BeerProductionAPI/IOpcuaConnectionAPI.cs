@@ -20,7 +20,7 @@ namespace BeerProductionAPI
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped
-        ,UriTemplate = "Connection")]
+        , UriTemplate = "Connection")]
         bool CheckMachineConnection();
 
 
@@ -36,14 +36,18 @@ namespace BeerProductionAPI
         BatchReportData getBatchReportData();
 
 
+        //skal data sendes som json data, eller opsat i parametre i URI'en?
         [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
-        , UriTemplate = "sendCommand/{command}")]
-        void SendCommand(string command);
+        , UriTemplate = "StopProduction")]
+        void StopMachine();
 
-        //skal data sendes som json data, eller opsat i parametre i URI'en?
+        [OperationContract]
+        [WebInvoke(ResponseFormat = WebMessageFormat.Json
+        , UriTemplate = "AbortProduction")]
+        void AbortMachine();
 
-        
+
         [OperationContract]
         [WebInvoke(ResponseFormat = WebMessageFormat.Json
         , UriTemplate = "BatchParameters/{productType}/{productionSpeed}/{batchSize}/{batchID}")]
