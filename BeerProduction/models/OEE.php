@@ -36,18 +36,11 @@ class OEE extends Database
         //Execute the statement.
         $stmt->execute();
 
+        
+        
         if ($stmt->rowcount() > 0) {
-            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $result = array();
-                $result[] = array(
-                    'batch_id' => $data['batch_id'],
-                    'batch_size' => $data['batch_size'],
-                    'produced_products' => $data['produced_products'],
-                    'defect_products' => $data['defect_products'],
-                    'production_speed' => $data['production_speed']
-                );
-            }
-        }
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }else
         $result[] = array(
             'batch_id' => 0,
             'batch_size' => 0,
@@ -105,7 +98,9 @@ class OEE extends Database
         $OEEList = array();
         $unusedBatchReportsCount = 0;
         $OEE = 0;
+        
         foreach ($data as $batchReport) {
+                
             $acceptableProducts = $batchReport['produced_products'];
 
             if ($acceptableProducts == 0) {
@@ -143,10 +138,10 @@ class OEE extends Database
             array_push($OEEList, $OEE);
         }
 
-        if (count($OEEList) == 0) {
-            $averageOEE = 0;
-        } elseif ((count($OEEList) - $unusedBatchReportsCount) == 0) {
-            $averageOEE = 0;
+         if (count($OEEList) == 0) {
+             $averageOEE = 0;
+        }elseif ((count($OEEList) - $unusedBatchReportsCount) == 0) {
+             $averageOEE = 0;
         } else {
             $averageOEE = array_sum($OEEList) / (count($OEEList) - $unusedBatchReportsCount);
         }
@@ -156,6 +151,7 @@ class OEE extends Database
     private function calculateOEE($quality, $availability, $performance)
     {
         $OEE = $quality * $availability * $performance;
+        
         return $OEE;
     }
 
@@ -163,14 +159,14 @@ class OEE extends Database
     {
         $acceptableProducts = $produced_products - $defectProducts;
         $quality = $acceptableProducts / $produced_products;
-
+        
         return $quality;
     }
 
     private function calculateAvailability($plannedProductionTime, $downtime)
     {
         $availability = ($plannedProductionTime - $downtime) / $plannedProductionTime;
-
+        
         return $availability;
     }
 
@@ -179,6 +175,7 @@ class OEE extends Database
         $IdealCycleTime =  60 / $MaxProductionSpeed;
 
         $performance = ($IdealCycleTime * $totalProducts) / $runtime;
+       
 
         return $performance;
     }

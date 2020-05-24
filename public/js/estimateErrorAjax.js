@@ -14,7 +14,7 @@ $('#produce').click(function (e) {
             // console.log(result)
         }
     });
-    updateOEE();
+    //updateOEE();
 });
 
 $('#stop').click(function (e) {
@@ -66,8 +66,9 @@ function updateOEE() {
         url: '/OEE',
         type: 'GET',
         success: function (result) {
-            result = JSON.parse(result);
             console.log(result);
+            result = JSON.parse(result);
+            
             document.getElementById("pilsnerOEE").innerHTML = result['Pilsner'];
             document.getElementById("wheatOEE").innerHTML = result['Wheat'];
             document.getElementById("IPAOEE").innerHTML = result['Ipa'];
