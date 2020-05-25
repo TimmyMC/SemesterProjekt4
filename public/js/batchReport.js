@@ -3,9 +3,9 @@ $('document').ready(function (e) {
         $.ajax({
             url: '/BatchReport/getBatchReports',
             type: 'GET',
+            dataType: 'JSON',
             success: function (result) {
-
-                $.each(JSON.parse(result), function (i, item) {
+                $.each(result, function (i, item) {
                     var batchitem = document.createElement("button");
                     batchitem.appendChild(
                         document.createTextNode(
@@ -40,12 +40,12 @@ $('document').ready(function (e) {
                             async: false,
                             url: '/BatchReport/getStateLog/' + encodeURI(item.batch_id),
                             type: 'GET',
+                            dataType: 'JSON',
                             success: function (result) {
-                                // console.log(result);
                                 stateInfo = result;
                             }
                         });
-                        return JSON.parse(stateInfo);
+                        return stateInfo;
                     }();
 
 
@@ -58,12 +58,12 @@ $('document').ready(function (e) {
                             async: false,
                             url: '/BatchReport/getEnvironmentalLog/' + encodeURI(item.batch_id),
                             type: 'GET',
+                            dataType: 'JSON',
                             success: function (result) {
-                                // console.log(result);
                                 environmentalInfo = result;
                             }
                         });
-                        return JSON.parse(environmentalInfo);
+                        return environmentalInfo;
                     }();
 
 

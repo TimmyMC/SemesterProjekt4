@@ -1,6 +1,8 @@
 console.log("EEF");
 $('document').ready(function (e) {
-    updateOEE();
+    if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") { //don't update on batchReport pages.
+        updateOEE();
+    }
 });
 
 
@@ -11,7 +13,6 @@ $('#produce').click(function (e) {
         type: 'POST',
         data: $('#startProductionForm').serialize(),
         success: function (result) {
-            // console.log(result)
         }
     });
     //updateOEE();
@@ -52,6 +53,8 @@ function setMaxSpeed(productType) {
 }
 
 function getEstimatedError(productType, productionSpeed) {
+    document.getElementById("currentSpeedLabel").innerHTML = productionSpeed;
+
     $.ajax({
         url: "/production/estimateErrorFunction/" + encodeURI(productType) + "/" + encodeURI(productionSpeed),
         type: 'GET',
@@ -65,10 +68,8 @@ function updateOEE() {
     $.ajax({
         url: '/OEE',
         type: 'GET',
+        dataType: 'JSON',
         success: function (result) {
-            console.log(result);
-            result = JSON.parse(result);
-            
             document.getElementById("pilsnerOEE").innerHTML = result['Pilsner'];
             document.getElementById("wheatOEE").innerHTML = result['Wheat'];
             document.getElementById("IPAOEE").innerHTML = result['Ipa'];

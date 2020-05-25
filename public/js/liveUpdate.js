@@ -76,7 +76,7 @@ function updateBatchReport() {
         url: "/BatchReport/update",
         type: 'GET',
         success: function (result) {
-            console.log(result);
+            // console.log(result);
         }
     });
 }
