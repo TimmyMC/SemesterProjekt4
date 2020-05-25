@@ -53,19 +53,19 @@ CREATE TABLE Environmental_log
 
 
 --DUMMY ENTRIES BATCH_REPORT
-INSERT INTO Batch_report(Batch_id, Product_type, Batch_size, Produced_products, Defect_products, Production_speed, Start_time)
-VALUES  (1,0,200,198,2,100,now()),
-        (2,0,200,197,3,100,now()),
-        (3,1,200,187,13,100,now()),
-        (4,1,200,195,5,100,now()),
-        (5,2,200,197,3,100,now()),
-        (6,2,200,192,8,100,now()),
-        (7,3,200,195,5,100,now()),
-        (8,3,200,194,6,100,now()),
-        (9,4,200,193,7,100,now()),
-        (10,4,200,197,3,100,now()),
-        (11,5,200,196,4,100,now()),
-        (12,5,200,194,6,100,now());
+INSERT INTO Batch_report(Product_type, Batch_size, Produced_products, Defect_products, Production_speed, Start_time)
+VALUES  (0,200,198,2,100,now()),
+        (0,200,197,3,100,now()),
+        (1,200,187,13,100,now()),
+        (1,200,195,5,100,now()),
+        (2,200,197,3,100,now()),
+        (2,200,192,8,100,now()),
+        (3,200,195,5,100,now()),
+        (3,200,194,6,100,now()),
+        (4,200,193,7,100,now()),
+        (4,200,197,3,100,now()),
+        (5,200,196,4,100,now()),
+        (5,200,194,6,100,now());
 
 --DUMMY ENTRIES STATE_LOG
 INSERT INTO State_log(Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Aborted_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)

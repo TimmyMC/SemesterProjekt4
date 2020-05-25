@@ -54,6 +54,35 @@ class EstimateError
         } else if ($estimatedError > 100) {
             $estimatedError = 100;
         }
-        return $estimatedError . "%";
+        return round($estimatedError, 2) . "%";
+    }
+
+    public function getOptimalSpeed($productType)
+    {
+        $optimalSpeed = 0;
+        switch ($productType) {
+            case 0:
+                $optimalSpeed = 460;
+                break;
+            case 1:
+                $optimalSpeed = 150;
+                break;
+            case 2:
+                $optimalSpeed = 105;
+                break;
+            case 3:
+                $optimalSpeed = 200;
+                break;
+            case 4:
+                $optimalSpeed = 90;
+                break;
+            case 5:
+                $optimalSpeed = 112;
+                break;
+        }
+        return json_encode(array(
+            "optimalSpeed" => $optimalSpeed,
+            "estimatedError" => $this->estimateErrorFunction($productType, $optimalSpeed)
+        ));
     }
 }

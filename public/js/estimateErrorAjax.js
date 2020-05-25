@@ -1,31 +1,24 @@
-console.log("EEF");
+
 $('document').ready(function (e) {
     if ($(location).attr('pathname').substring(0, 12) !== "/batchReport") { //don't update on batchReport pages.
         updateOEE();
     }
 });
 
-
-$('#produce').click(function (e) {
-    e.preventDefault();
+$('#startProductionForm').submit(function (e) {
     $.ajax({
         url: '/production/produceBatch',
         type: 'POST',
-        data: $('#startProductionForm').serialize(),
-        success: function (result) {
-        }
+        data: $('#startProductionForm').serialize()
     });
-    //updateOEE();
+    return false;
 });
 
 $('#stop').click(function (e) {
     e.preventDefault();
     $.ajax({
         url: '/production/stopBatch',
-        type: 'GET',
-        success: function (result) {
-            // console.log(result)
-        }
+        type: 'GET'
     });
 });
 
@@ -33,9 +26,22 @@ $('#abort').click(function (e) {
     e.preventDefault();
     $.ajax({
         url: '/production/abortBatch',
+        type: 'GET'
+    });
+});
+
+$('#getOptimalSpeed').click(function (e) {
+    e.preventDefault();
+
+    var productType = document.getElementById("batchProductType").value;
+    $.ajax({
+        url: "/production/getOptimalSpeed/" + encodeURI(productType),
         type: 'GET',
+        dataType: 'JSON',
         success: function (result) {
-            // console.log(result)
+            document.getElementById("batchSpeed").value = result['optimalSpeed'];
+            document.getElementById("currentSpeedLabel").innerHTML = result['optimalSpeed'];
+            document.getElementById("errorEstimate").innerHTML = result['estimatedError'];
         }
     });
 });
@@ -70,6 +76,7 @@ function updateOEE() {
         type: 'GET',
         dataType: 'JSON',
         success: function (result) {
+            console.log(result);
             document.getElementById("pilsnerOEE").innerHTML = result['Pilsner'];
             document.getElementById("wheatOEE").innerHTML = result['Wheat'];
             document.getElementById("IPAOEE").innerHTML = result['Ipa'];

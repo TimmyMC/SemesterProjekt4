@@ -39,7 +39,7 @@ class BatchReport extends Database
     private function createStateLog($id)
     {
         $sql = "INSERT INTO state_log
-        (Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Abort_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)
+        (Batch_id, Deactivated_state, Clearing_state, Stopped_state, Starting_state, Idle_state, Suspended_state, Execute_state, Stopping_state, Aborting_state, Aborted_state, Holding_state, Held_state, Resetting_state, Completing_state, Completed_state, Deactive_state, Activating_state)
         VALUES
         (:Batch_id,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);";
         $stmt = $this->conn->prepare($sql);

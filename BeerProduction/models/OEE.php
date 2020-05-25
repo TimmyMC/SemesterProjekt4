@@ -13,12 +13,12 @@ class OEE extends Database
         $dataAlcoholFree = $this->calculateTotalOEE($this->getOEEDatafromDB(5), 125, $currentBatchID);
 
         $OEEData = array(
-            'Pilsner' => ($dataPilsner) * 100,
-            'Wheat' => ($dataWheat) * 100,
-            'Ipa' => ($dataIpa) * 100,
-            'Stout' => ($dataStout) * 100,
-            'Ale' => ($dataAle) * 100,
-            'AlcoholFree' => ($dataAlcoholFree) * 100
+            'Pilsner' => round(($dataPilsner) * 100, 2),
+            'Wheat' => round(($dataWheat) * 100, 2),
+            'Ipa' => round(($dataIpa) * 100, 2),
+            'Stout' => round(($dataStout) * 100, 2),
+            'Ale' => round(($dataAle) * 100, 2),
+            'AlcoholFree' => round(($dataAlcoholFree) * 100, 2)
         );
 
         return $OEEData;
@@ -36,18 +36,18 @@ class OEE extends Database
         //Execute the statement.
         $stmt->execute();
 
-        
-        
+
+
         if ($stmt->rowcount() > 0) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }else
-        $result[] = array(
-            'batch_id' => 0,
-            'batch_size' => 0,
-            'produced_products' => 0,
-            'defect_products' => 0,
-            'production_speed' => 0
-        );
+        } else
+            $result[] = array(
+                'batch_id' => 0,
+                'batch_size' => 0,
+                'produced_products' => 0,
+                'defect_products' => 0,
+                'production_speed' => 0
+            );
 
         return $result;
     }
@@ -80,7 +80,7 @@ class OEE extends Database
                 'execute_state' => $data['execute_state'],
                 'stopped_state' => $data['stopped_state'],
                 'aborting_state' => $data['aborting_state'],
-                'abort_state' => $data['abort_state'],
+                'aborted_state' => $data['aborted_state'],
                 'holding_state' => $data['holding_state'],
                 'held_state' => $data['held_state'],
                 'resetting_state' => $data['resetting_state'],
@@ -98,9 +98,9 @@ class OEE extends Database
         $OEEList = array();
         $unusedBatchReportsCount = 0;
         $OEE = 0;
-        
+
         foreach ($data as $batchReport) {
-                
+
             $acceptableProducts = $batchReport['produced_products'];
 
             if ($acceptableProducts == 0) {
@@ -138,10 +138,10 @@ class OEE extends Database
             array_push($OEEList, $OEE);
         }
 
-         if (count($OEEList) == 0) {
-             $averageOEE = 0;
-        }elseif ((count($OEEList) - $unusedBatchReportsCount) == 0) {
-             $averageOEE = 0;
+        if (count($OEEList) == 0) {
+            $averageOEE = 0;
+        } elseif ((count($OEEList) - $unusedBatchReportsCount) == 0) {
+            $averageOEE = 0;
         } else {
             $averageOEE = array_sum($OEEList) / (count($OEEList) - $unusedBatchReportsCount);
         }
@@ -151,7 +151,7 @@ class OEE extends Database
     private function calculateOEE($quality, $availability, $performance)
     {
         $OEE = $quality * $availability * $performance;
-        
+
         return $OEE;
     }
 
@@ -159,14 +159,14 @@ class OEE extends Database
     {
         $acceptableProducts = $produced_products - $defectProducts;
         $quality = $acceptableProducts / $produced_products;
-        
+
         return $quality;
     }
 
     private function calculateAvailability($plannedProductionTime, $downtime)
     {
         $availability = ($plannedProductionTime - $downtime) / $plannedProductionTime;
-        
+
         return $availability;
     }
 
@@ -175,7 +175,6 @@ class OEE extends Database
         $IdealCycleTime =  60 / $MaxProductionSpeed;
 
         $performance = ($IdealCycleTime * $totalProducts) / $runtime;
-       
 
         return $performance;
     }

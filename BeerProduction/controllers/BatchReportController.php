@@ -7,16 +7,20 @@ class BatchReportController extends Controller
         $this->view('BatchReport/BatchReport');
     }
 
-    public function saveBatchReport()
+    public function updateBatchReport()
     {
-        $batchReportData = $this->model('BatchReport')->getBatchReportFromAPI();
-        $this->model('BatchReport')->saveBatchReportToDB($batchReportData);
+        $batchReportData = $_SESSION['productionData'];
+        if (!empty($_SESSION['productionData'])) { // checks for api/machine connection
+            $this->model('BatchReport')->updateBatchReportToDB($batchReportData);
+        }
     }
 
-    public function update()
+    public function updateLogs()
     {
-        $batchReportData = $this->model('ProductionData')->getProductionData();
-        $this->model('BatchReport')->updateBatchReportToDB($batchReportData);
+        if (!empty($_SESSION['productionData'])) { // checks for api/machine connection
+            $this->model('BatchReport')->insertEnvironmentalLog($_SESSION['productionData']);
+        }
+        $this->model('BatchReport')->updateStateLog($_SESSION['productionData']);   //always want to save a state log, it saves to deactivated state when there is no connection.
     }
 
     public function getBatchReports()
@@ -29,8 +33,6 @@ class BatchReportController extends Controller
     {
         if ($this->get()) {
             $stateLogData = $this->model('BatchReport')->getStateLogFromDB($batchID);
-
-            //$stateLogData = array("Something");
             echo json_encode($stateLogData);
         }
     }
@@ -39,8 +41,6 @@ class BatchReportController extends Controller
     {
         if ($this->get()) {
             $environmentalLogData = $this->model('BatchReport')->getEnvironmentalLogFromDB($batchID);
-
-            //$stateLogData = array("Something");
             echo json_encode($environmentalLogData);
         }
     }

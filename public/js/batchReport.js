@@ -49,7 +49,6 @@ $('document').ready(function (e) {
                     }();
 
 
-
                     //Call to get environmental log information
                     //Attach to text
                     var environmentalLog = function () {
@@ -66,25 +65,12 @@ $('document').ready(function (e) {
                         return environmentalInfo;
                     }();
 
-
-                    // information.appendChild(
-                    //     document.createTextNode(
-                    //         "State Log Information:" +
-                    //         "\n" +
-                    //         stateLog +
-                    //         "\n" +
-                    //         "Environmental Log Information:" +
-                    //         "\n" +
-                    //         environmentalLog
-                    //     )
-                    // );
-
                     var infoRow = document.createElement("div");
                     infoRow.classList.add("row");
 
 
                     var stateLogGrid = document.createElement("div");
-                    stateLogGrid.classList.add("col-4", "m-1");
+                    stateLogGrid.classList.add("col-12", "col-md-4", "m-1");
 
                     var stateLogContent = document.createElement("div");
                     stateLogContent.classList.add("row", "border", "p-1", "border-dark");
@@ -102,9 +88,8 @@ $('document').ready(function (e) {
                     }
 
 
-
                     var environmentalLogGrid = document.createElement("div");
-                    environmentalLogGrid.classList.add("col-4", "m-1");
+                    environmentalLogGrid.classList.add("col-12", "col-md-4", "m-1");
 
                     var environmentalLogContent = document.createElement("div");
                     environmentalLogContent.classList.add("row", "border", "p-1", "border-dark");
@@ -134,7 +119,15 @@ $('document').ready(function (e) {
 
                     document.getElementById("batchReportList").appendChild(batchitem);
                 });
+
+                removeLoader();
             }
         });
     }
 });
+
+
+function removeLoader() {
+    var loading = document.getElementById("loading");
+    loading.parentNode.removeChild(loading);
+}
