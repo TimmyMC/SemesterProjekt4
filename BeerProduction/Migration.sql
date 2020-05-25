@@ -2,8 +2,7 @@ SELECT * FROM environmental_log
 SELECT * FROM Batch_report
 SELECT * FROM State_log
 
-INSERT INTO Batch_report(Product_type, Batch_size, Produced_products, Defect_products, Production_speed, Start_time)
-VALUES  (0,200,198,2,100,now());
+
 
 
 --Dropping tables before creating (batch_report has to be done last hence the 2 others depend on it)
