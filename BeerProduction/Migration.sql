@@ -28,7 +28,7 @@ CREATE TABLE State_log
     Execute_state FLOAT NOT NULL,
     Stopping_state FLOAT NOT NULL,
     Aborting_state FLOAT NOT NULL,
-    Abort_state FLOAT NOT NULL,
+    Aborted_state FLOAT NOT NULL,
     Holding_state FLOAT NOT NULL,
     Held_state FLOAT NOT NULL,
     Resetting_state FLOAT NOT NULL,
