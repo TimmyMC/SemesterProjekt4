@@ -76,7 +76,6 @@ function updateOEE() {
         type: 'GET',
         dataType: 'JSON',
         success: function (result) {
-            console.log(result);
             document.getElementById("pilsnerOEE").innerHTML = result['Pilsner'];
             document.getElementById("wheatOEE").innerHTML = result['Wheat'];
             document.getElementById("IPAOEE").innerHTML = result['Ipa'];

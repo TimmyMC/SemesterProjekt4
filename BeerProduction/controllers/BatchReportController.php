@@ -26,22 +26,11 @@ class BatchReportController extends Controller
     public function getBatchReports()
     {
         $batchReportData = $this->model('BatchReport')->getBatchReportListFromDB();
+        foreach ($batchReportData as &$batchReport) {
+            $batchID = $batchReport['batch_id'];
+            $batchReport['stateLog'] = $this->model('BatchReport')->getStateLogFromDB($batchID);
+            $batchReport['environmentalLog'] = $this->model('BatchReport')->getEnvironmentalLogFromDB($batchID);
+        }
         echo json_encode($batchReportData);
-    }
-
-    public function getStateLog($batchID)
-    {
-        if ($this->get()) {
-            $stateLogData = $this->model('BatchReport')->getStateLogFromDB($batchID);
-            echo json_encode($stateLogData);
-        }
-    }
-
-    public function getEnvironmentalLog($batchID)
-    {
-        if ($this->get()) {
-            $environmentalLogData = $this->model('BatchReport')->getEnvironmentalLogFromDB($batchID);
-            echo json_encode($environmentalLogData);
-        }
     }
 }

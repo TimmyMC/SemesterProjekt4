@@ -160,8 +160,6 @@ class BatchReport extends Database
     {
         $sql = "SELECT * FROM state_log WHERE batch_id = :batchID;";
 
-
-
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':batchID', $batchID);
         $stmt->execute();
@@ -174,8 +172,6 @@ class BatchReport extends Database
         $sql = "SELECT AVG(temperature) AS temperature, AVG(humidity) AS humidity, AVG(vibration) AS vibration
         FROM environmental_log
         WHERE batch_id = :batchID;";
-
-
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':batchID', $batchID);

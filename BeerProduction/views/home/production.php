@@ -3,10 +3,10 @@
 <div class="row">
   <div class="p-2 col-12 col-lg-4">
     <div class="card h-100">
-      <div class="card-body text-center">
-        <form id="startProductionForm">
-          <div class="form-group border p-1 rounded p-1">
-            <label for="batchProductType">Choose a beer:</label>
+      <div class="card-body text-center mx-auto">
+        <form id="startProductionForm" class="mb-2">
+          <div class="border rounded p-2 mb-2">
+            <label for="batchProductType">Choose a beer&nbsp;</label>
             <select id="batchProductType" name="batchProductType" onchange="setMaxSpeed(this.value)">
               <option value=0>Pilsner</option>
               <option value=1>Wheat</option>
@@ -16,7 +16,7 @@
               <option value=5>Alcohol Free</option>
             </select>
           </div>
-          <div class="form-group border p-1 rounded">
+          <div class="border rounded p-2 mb-2">
             <label id="currentSpeedLabel" for="batchSpeed"><?= $viewbag['machineSpeed'] ?></label>
             <input id="batchSpeed" name="batchSpeed" type="range" min="1" max="<?= $viewbag['maxSpeed'] ?>" value="<?= $viewbag['machineSpeed'] ?>" onInput="getEstimatedError(batchProductType.value, this.value)">
             <!-- TODO oninput creates a massive amount of ajax calls which may lag due to the cisco vpn, if this happens change it to onchange -->
@@ -26,17 +26,17 @@
             </br>
             <label>Estimated Error:&nbsp;</label><label id="errorEstimate"><?= $viewbag['estimatedError'] ?></label>
           </div>
-          <div class="form-group border p-1 rounded">
-            <label>BatchSize</label>
+          <div class="border rounded p-2 mb-2">
+            <label>Batch Size&nbsp;</label>
             <input type="number" id="batchSize" name="batchSize" min=1 max=65535 required><br>
           </div>
-          <div class="form-group border p-1 rounded">
+          <div class="border rounded p-2 mb-2">
             <input type="submit" value="Produce" id="produce"></button>
             <button id="stop">Stop</button>
             <button id="abort">Abort</button>
           </div>
         </form>
-        <div id="stateDiv" class="form-group border p-1 rounded m-0">
+        <div id="stateDiv" class="border rounded p-2">
           <label>Current State: <strong id='CurrentState'></strong></label>
         </div>
       </div>
