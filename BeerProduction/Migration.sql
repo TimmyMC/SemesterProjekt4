@@ -1,10 +1,3 @@
-SELECT * FROM environmental_log
-SELECT * FROM Batch_report
-SELECT * FROM State_log
-
-
-
-
 --Dropping tables before creating (batch_report has to be done last hence the 2 others depend on it)
 DROP TABLE IF EXISTS State_log;
 DROP TABLE IF EXISTS Environmental_log;
