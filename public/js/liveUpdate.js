@@ -18,19 +18,37 @@ function updateProductionData() {
         type: 'GET',
         success: function (result) {
             // console.log(result);
-
             var currentState = result['CurrentState'].replace('_', ' ');
             document.getElementById('CurrentState').innerHTML = currentState;
 
-            if (currentState == "Deactivated state") {
+            if ((currentState == "Deactivated state") || (currentState == "Deactivating state")) {
                 document.getElementById('stateDiv').classList.add("bg-danger");
+                document.getElementById('stateDiv').classList.remove("bg-warning");
+                document.getElementById('stateDiv').classList.remove("bg-success");
                 document.getElementById('produce').disabled = true;
                 document.getElementById('stop').disabled = true;
                 document.getElementById('abort').disabled = true;
             } else {
-                document.getElementById('stateDiv').classList.remove("bg-danger");
                 document.getElementById('abort').disabled = false;
 
+                //Update currentState color
+                if ((currentState == "Starting state") || (currentState == "Execute state") ||
+                    (currentState == "Completing state") || (currentState == "Completed state")
+                ) {
+                    document.getElementById('stateDiv').classList.add("bg-success");
+                    document.getElementById('stateDiv').classList.remove("bg-danger");
+                    document.getElementById('stateDiv').classList.remove("bg-warning");
+                } else if ((currentState == "Aborting state") || (currentState == "Aborted state")) {
+                    document.getElementById('stateDiv').classList.remove("bg-success");
+                    document.getElementById('stateDiv').classList.add("bg-danger");
+                    document.getElementById('stateDiv').classList.remove("bg-warning");
+                } else {
+                    document.getElementById('stateDiv').classList.remove("bg-success");
+                    document.getElementById('stateDiv').classList.remove("bg-danger");
+                    document.getElementById('stateDiv').classList.add("bg-warning");
+                }
+
+                // Update button availability
                 if (currentState == "Execute state") {
                     document.getElementById('produce').disabled = true;
                     document.getElementById('stop').disabled = false;
@@ -39,6 +57,7 @@ function updateProductionData() {
                     document.getElementById('produce').disabled = false;
                 }
 
+                //Update 'live' data
                 document.getElementById('AcceptableProducts').innerHTML = (result['ProducedProducts']) - (result['DefectProducts']);
                 document.getElementById('ActualMachineSpeed').innerHTML = result['ActualMachineSpeed'];
                 document.getElementById('BatchID').innerHTML = result['CurrentBatchID'];
@@ -64,6 +83,7 @@ function updateProductionData() {
                 maintainencePercent = result['MaintainenceMeter'] / 30000 * 100;
                 document.getElementById('MaintainenceMeter').style.height = maintainencePercent + '%';
 
+                //Update Maintainence Meter color
                 if (maintainencePercent >= 85) {
                     document.getElementById('MaintainenceMeter').classList.add("bg-danger");
                     document.getElementById('MaintainenceMeter').classList.remove("bg-warning");
